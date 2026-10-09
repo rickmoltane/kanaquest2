@@ -1,0 +1,7 @@
+{
+  "name": "KanaQuest - Japanese Hiragana Learning",
+  "description": "Clean, minimalist Japanese Hiragana flashcard trainer with two-way recognition exercises, progress tracking, and cloud sync across devices.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

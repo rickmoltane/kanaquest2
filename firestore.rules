@@ -1,0 +1,69 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function isValidUserProfile(data) {
+      return data.userId is string && data.userId == request.auth.uid &&
+             data.totalQuizzes is number && data.totalQuizzes >= 0 &&
+             data.totalAnswers is number && data.totalAnswers >= 0 &&
+             data.totalCorrect is number && data.totalCorrect >= 0 &&
+             (!('email' in data) || (data.email is string && data.email.size() <= 200)) &&
+             (!('displayName' in data) || (data.displayName is string && data.displayName.size() <= 100)) &&
+             (!('streakDays' in data) || (data.streakDays is number && data.streakDays >= 0)) &&
+             (!('lastActiveAt' in data) || (data.lastActiveAt is string && data.lastActiveAt.size() <= 50)) &&
+             (!('createdAt' in data) || (data.createdAt is string && data.createdAt.size() <= 50)) &&
+             (!('updatedAt' in data) || (data.updatedAt is string && data.updatedAt.size() <= 50));
+    }
+
+    function isValidQuizResult(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.userId is string && data.userId == request.auth.uid &&
+             data.exerciseType is string && (
+               data.exerciseType == 'hiragana-to-romaji' || 
+               data.exerciseType == 'romaji-to-hiragana' ||
+               data.exerciseType == 'word-romaji-to-hiragana' ||
+               data.exerciseType == 'word-hiragana-to-romaji' ||
+               data.exerciseType == 'hiragana-drawing'
+             ) &&
+             data.score is number && data.score >= 0 && data.score <= 100 &&
+             data.totalQuestions is number && data.totalQuestions > 0 && data.totalQuestions <= 100 &&
+             data.percentage is number && data.percentage >= 0 && data.percentage <= 100 &&
+             data.createdAt is string && data.createdAt.size() <= 50 &&
+             (!('timeSpentSeconds' in data) || (data.timeSpentSeconds is number && data.timeSpentSeconds >= 0));
+    }
+
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUserProfile(incoming());
+      allow update: if isOwner(userId) && isValidUserProfile(incoming()) && incoming().userId == userId;
+      allow delete: if isOwner(userId);
+
+      match /quizResults/{quizId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidQuizResult(incoming()) && incoming().userId == userId;
+        allow update: if isOwner(userId) && isValidQuizResult(incoming()) && incoming().userId == userId;
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}

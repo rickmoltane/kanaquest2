@@ -1,0 +1,102 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with aggregated learning statistics and character mastery",
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user"
+        },
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "totalQuizzes": {
+          "type": "number",
+          "description": "Total completed quiz sessions"
+        },
+        "totalAnswers": {
+          "type": "number",
+          "description": "Total answered questions"
+        },
+        "totalCorrect": {
+          "type": "number",
+          "description": "Total correct answers"
+        },
+        "streakDays": {
+          "type": "number",
+          "description": "Consecutive days practiced"
+        },
+        "lastActiveAt": {
+          "type": "string",
+          "description": "ISO timestamp of last activity"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of account creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "description": "ISO timestamp of last update"
+        }
+      },
+      "required": ["userId", "totalQuizzes", "totalAnswers", "totalCorrect"]
+    },
+    "QuizResult": {
+      "title": "QuizResult",
+      "description": "Completed quiz attempt history record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique quiz result ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "Firebase Auth UID"
+        },
+        "exerciseType": {
+          "type": "string",
+          "description": "Type of exercise: hiragana-to-romaji, romaji-to-hiragana, word-romaji-to-hiragana, word-hiragana-to-romaji, or hiragana-drawing"
+        },
+        "score": {
+          "type": "number",
+          "description": "Number of correct answers"
+        },
+        "totalQuestions": {
+          "type": "number",
+          "description": "Total questions in the quiz, default 10"
+        },
+        "percentage": {
+          "type": "number",
+          "description": "Calculated percentage score"
+        },
+        "timeSpentSeconds": {
+          "type": "number",
+          "description": "Duration of the quiz in seconds"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of quiz completion"
+        }
+      },
+      "required": ["id", "userId", "exerciseType", "score", "totalQuestions", "percentage", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "Collection of user profile summaries and stats"
+    },
+    "/users/{userId}/quizResults/{quizId}": {
+      "schema": "QuizResult",
+      "description": "Subcollection of quiz historical results"
+    }
+  }
+}
