@@ -73,7 +73,7 @@ function MainContent() {
   return (
     <div className={`${
       isExerciseView ? 'h-[100dvh] max-h-[100dvh] overflow-hidden' : 'min-h-[100dvh]'
-    } bg-[#fafaf9] text-neutral-900 flex flex-col font-sans selection:bg-neutral-900 selection:text-white`}>
+    } bg-[#F8FAFF] text-[#1F2329] flex flex-col font-sans selection:bg-[#1A73E8] selection:text-white`}>
       {/* Navigation Bar */}
       <Navbar
         activeTab={activeTab}

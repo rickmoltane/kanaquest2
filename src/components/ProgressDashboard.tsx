@@ -112,7 +112,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onStartExe
             <button
               type="button"
               onClick={loginWithGoogle}
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-neutral-900 text-white text-xs font-semibold hover:bg-neutral-800 transition-all shadow-sm"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A73E8] text-white text-xs font-bold hover:bg-[#1557B0] transition-all shadow-xs cursor-pointer"
             >
               <LogIn className="w-3.5 h-3.5" />
               <span>Sign in for Cloud Sync</span>
@@ -124,64 +124,152 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onStartExe
       {/* KPI METRICS GRID */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Total Quizzes */}
-        <div className="bg-white border-2 border-neutral-200 rounded-2xl p-5 shadow-xs">
-          <div className="flex items-center justify-between text-neutral-600 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="bg-white border-2 border-[#CBD5E1] rounded-2xl p-5 shadow-xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-bold uppercase tracking-wider mb-2">
             <span>Quizzes Completed</span>
-            <BarChart3 className="w-4 h-4 text-neutral-700" />
+            <BarChart3 className="w-4 h-4 text-[#1A73E8]" />
           </div>
-          <div className="text-3xl sm:text-4xl font-black text-neutral-900 font-mono">
+          <div className="text-3xl sm:text-4xl font-black text-[#1F2329] font-mono">
             {totalQuizzes}
           </div>
-          <p className="text-xs text-neutral-600 mt-1">10 questions per session</p>
+          <p className="text-xs text-[#5F6368] mt-1 font-medium">10 questions per session</p>
         </div>
 
         {/* Overall Accuracy */}
-        <div className="bg-white border-2 border-neutral-200 rounded-2xl p-5 shadow-xs">
-          <div className="flex items-center justify-between text-neutral-600 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="bg-white border-2 border-[#CBD5E1] rounded-2xl p-5 shadow-xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-bold uppercase tracking-wider mb-2">
             <span>Overall Accuracy</span>
             <Target className="w-4 h-4 text-emerald-600" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl sm:text-4xl font-black text-neutral-900 font-mono">
+            <span className="text-3xl sm:text-4xl font-black text-[#1F2329] font-mono">
               {overallAccuracy}
             </span>
-            <span className="text-lg font-bold text-neutral-600">%</span>
+            <span className="text-lg font-bold text-[#5F6368]">%</span>
           </div>
-          <p className="text-xs text-neutral-600 mt-1">
+          <p className="text-xs text-[#5F6368] mt-1 font-medium">
             {totalCorrect} of {totalQuestions} answered correctly
           </p>
         </div>
 
         {/* Mastery Count */}
-        <div className="bg-white border-2 border-neutral-200 rounded-2xl p-5 shadow-xs">
-          <div className="flex items-center justify-between text-neutral-600 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="bg-white border-2 border-[#CBD5E1] rounded-2xl p-5 shadow-xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-bold uppercase tracking-wider mb-2">
             <span>Mastered Kana</span>
             <Trophy className="w-4 h-4 text-amber-500" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl sm:text-4xl font-black text-neutral-900 font-mono">
+            <span className="text-3xl sm:text-4xl font-black text-[#1F2329] font-mono">
               {masteredCount}
             </span>
-            <span className="text-sm font-semibold text-neutral-600">/ 46</span>
+            <span className="text-sm font-semibold text-[#5F6368]">/ 46</span>
           </div>
-          <p className="text-xs text-neutral-600 mt-1">
+          <p className="text-xs text-[#5F6368] mt-1 font-medium">
             {inProgressCount} currently learning
           </p>
         </div>
 
         {/* Streak */}
-        <div className="bg-white border-2 border-neutral-200 rounded-2xl p-5 shadow-xs">
-          <div className="flex items-center justify-between text-neutral-600 text-xs font-bold uppercase tracking-wider mb-2">
+        <div className="bg-white border-2 border-[#CBD5E1] rounded-2xl p-5 shadow-xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-bold uppercase tracking-wider mb-2">
             <span>Practice Streak</span>
             <Flame className="w-4 h-4 text-rose-500" />
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-3xl sm:text-4xl font-black text-neutral-900 font-mono">
+            <span className="text-3xl sm:text-4xl font-black text-[#1F2329] font-mono">
               {streakDays}
             </span>
-            <span className="text-sm font-semibold text-neutral-600">day{streakDays > 1 ? 's' : ''}</span>
+            <span className="text-sm font-semibold text-[#5F6368]">day{streakDays > 1 ? 's' : ''}</span>
           </div>
-          <p className="text-xs text-neutral-600 mt-1">Consistency builds fluency</p>
+          <p className="text-xs text-[#5F6368] mt-1 font-medium">Consistency builds fluency</p>
+        </div>
+      </div>
+
+      {/* ALL EXERCISE NAMES & DIRECT LAUNCHERS (Names shown here on progress dashboard) */}
+      <div className="bg-white border-2 border-[#CBD5E1] rounded-3xl p-6 sm:p-7 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-5 pb-3 border-b border-[#E2E8F0]">
+          <div>
+            <h2 className="text-lg sm:text-xl font-black text-[#1F2329] tracking-tight">
+              Exercise Catalog & Practice Modules
+            </h2>
+            <p className="text-xs sm:text-sm text-[#5F6368]">
+              Names and descriptions for all 5 training exercises
+            </p>
+          </div>
+          <span className="text-xs font-bold px-3 py-1 rounded-xl bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329] self-start sm:self-auto">
+            5 Exercise Types
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+          {[
+            {
+              num: '1',
+              type: 'hiragana-to-romaji' as ExerciseType,
+              name: 'Exercise 1: Kana → Romaji',
+              desc: 'Flashcard character shown on top; pick correct Romaji from 3 options.',
+              tag: '10 Cards / Round',
+            },
+            {
+              num: '2',
+              type: 'romaji-to-hiragana' as ExerciseType,
+              name: 'Exercise 2: Romaji → Kana',
+              desc: 'Romaji sound shown on top; pick correct Hiragana from 3 options.',
+              tag: 'Reverse Recall',
+            },
+            {
+              num: '3',
+              type: 'word-romaji-to-hiragana' as ExerciseType,
+              name: 'Exercise 3: Everyday Words (Pic + Romaji → Kana)',
+              desc: 'Everyday item illustration + Romaji; pick matching Hiragana spelling.',
+              tag: '50 Vocabulary Words',
+            },
+            {
+              num: '4',
+              type: 'word-hiragana-to-romaji' as ExerciseType,
+              name: 'Exercise 4: Everyday Words (Pic + Kana → Romaji)',
+              desc: 'Everyday item illustration + Hiragana; pick matching Romaji reading.',
+              tag: 'Syllable Matching',
+            },
+            {
+              num: '5',
+              type: 'hiragana-drawing' as ExerciseType,
+              name: 'Exercise 5: Hiragana Stroke Tracing',
+              desc: 'Draw over the 30% faded Hiragana outline in proper stroke order.',
+              tag: 'Kinesthetic Drawing',
+            },
+          ].map(mod => (
+            <div
+              key={mod.num}
+              className="flex flex-col justify-between p-4 rounded-2xl bg-[#F8FAFF] border-2 border-[#E2E8F0] hover:border-[#1A73E8] transition-all group"
+            >
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="font-mono text-sm font-black px-2.5 py-0.5 rounded-lg bg-[#1F2329] text-white">
+                    [{mod.num}]
+                  </span>
+                  <span className="text-[11px] font-bold text-[#1A73E8] bg-[#E8F0FE] px-2 py-0.5 rounded-md border border-[#BFDBFE]">
+                    {mod.tag}
+                  </span>
+                </div>
+                <h3 className="font-extrabold text-sm text-[#1F2329] group-hover:text-[#1A73E8] transition-colors mb-1">
+                  {mod.name}
+                </h3>
+                <p className="text-xs text-[#5F6368] leading-relaxed">
+                  {mod.desc}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => onStartExercise(mod.type)}
+                className="mt-3 w-full py-2 px-3 rounded-xl bg-white border border-[#CBD5E1] group-hover:border-[#1A73E8] group-hover:bg-[#1A73E8] group-hover:text-white text-[#1F2329] text-xs font-bold flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-2xs"
+              >
+                <span>Launch Exercise [{mod.num}]</span>
+                <ArrowUpRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          ))}
         </div>
       </div>
 

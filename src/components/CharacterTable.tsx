@@ -30,7 +30,7 @@ export const CharacterTable: React.FC<CharacterTableProps> = ({ onStartExercise 
           <button
             type="button"
             onClick={() => onStartExercise('hiragana-to-romaji')}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-neutral-900 text-white text-xs font-bold hover:bg-neutral-800 transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#1A73E8] text-white text-xs font-bold hover:bg-[#1557B0] transition-colors shadow-xs cursor-pointer"
           >
             <Play className="w-3.5 h-3.5" />
             <span>Practice in Ex 1</span>

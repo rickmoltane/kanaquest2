@@ -234,68 +234,65 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
   const exerciseTitle = getExerciseTitle();
 
   return (
-    <div className="h-full flex flex-col justify-between max-w-xl mx-auto px-2 sm:px-4 py-1 sm:py-2 overflow-hidden select-none">
+    <div className="h-full flex flex-col justify-between max-w-3xl sm:max-w-4xl mx-auto w-full px-3 sm:px-6 py-1.5 sm:py-3 overflow-hidden select-none">
       {/* Top Header & Compact Progress */}
-      <div className="shrink-0 mb-0.5 sm:mb-1">
-        <div className="flex items-center justify-between text-xs mb-0.5 px-0.5">
-          <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-neutral-900 text-xs">
-              {exerciseTitle.label}
-            </span>
-            <span className="text-neutral-500 font-medium truncate text-[11px] hidden xs:inline">
-              ({exerciseTitle.desc})
+      <div className="shrink-0 mb-1">
+        <div className="flex items-center justify-between text-xs sm:text-sm mb-1 px-0.5">
+          <div className="flex items-center gap-2">
+            <span className="font-mono font-bold text-xs sm:text-sm px-2.5 py-0.5 rounded-lg bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329]">
+              Card {currentIndex + 1} / 10
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <span className="text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-neutral-100 text-neutral-800">
-              Score: <strong className="text-neutral-900">{currentScore}</strong> / {currentIndex + (isAnswered ? 1 : 0)}
+          <div className="flex items-center gap-2">
+            <span className="text-xs sm:text-sm font-bold px-2 py-0.5 rounded-lg bg-[#E8F0FE] text-[#1A73E8] border border-[#BFDBFE]">
+              Score: <strong>{currentScore}</strong> / {currentIndex + (isAnswered ? 1 : 0)}
             </span>
             <button
               type="button"
               onClick={startNewQuiz}
               title="Restart session"
-              className="text-neutral-500 hover:text-neutral-900 p-0.5 rounded hover:bg-neutral-100 transition-colors cursor-pointer"
+              className="text-[#5F6368] hover:text-[#1F2329] p-1 rounded-md hover:bg-[#EDF2F7] transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* 10-Segment Progress Bar */}
-        <div className="grid grid-cols-10 gap-0.5 sm:gap-1 h-1.5 w-full bg-neutral-100 p-0.5 rounded-full">
+        <div className="grid grid-cols-10 gap-1 sm:gap-1.5 h-2 w-full bg-[#E2E8F0] p-0.5 rounded-full">
           {Array.from({ length: 10 }).map((_, idx) => {
             const answer = answers[idx];
-            let segmentClass = 'bg-neutral-200';
+            let segmentClass = 'bg-[#CBD5E1]';
             if (idx === currentIndex && !isAnswered) {
-              segmentClass = 'bg-neutral-900 ring-1 ring-neutral-400';
+              segmentClass = 'bg-[#1A73E8] ring-2 ring-[#93C5FD]';
             } else if (answer) {
-              segmentClass = answer.isCorrect ? 'bg-emerald-600' : 'bg-rose-500';
+              segmentClass = answer.isCorrect ? 'bg-[#16A34A]' : 'bg-[#E11D48]';
             }
             return (
               <div
                 key={idx}
                 className={`h-full rounded-full transition-all duration-200 ${segmentClass}`}
-                title={`Question ${idx + 1}`}
+                title={`Card ${idx + 1}`}
               />
             );
           })}
         </div>
-        <div className="flex justify-between items-center text-[9px] sm:text-[10px] text-neutral-400 mt-0.5 px-0.5">
-          <span>Card {currentIndex + 1} of 10</span>
-          <span>10 succession cards</span>
+        <div className="flex justify-between items-center text-[10px] sm:text-xs text-[#5F6368] mt-0.5 px-0.5 font-medium">
+          <span>Progress</span>
+          <span>10 cards per round</span>
         </div>
       </div>
 
-      {/* FLASHCARD CONTAINER - Fills vertical viewport */}
-      <div className="flex-1 min-h-0 flex flex-col bg-white border-2 border-neutral-900 rounded-2xl sm:rounded-3xl shadow-sm overflow-hidden my-0.5 sm:my-1">
+      {/* FLASHCARD CONTAINER - Fills vertical viewport and uses space efficiently */}
+      <div className="flex-1 min-h-0 flex flex-col bg-white border-2 border-[#CBD5E1] rounded-2xl sm:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] overflow-hidden my-1">
         
         {/* ================= TOP PART OF FLASHCARD ================= */}
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-2 sm:p-5 bg-neutral-50/70 border-b-2 border-neutral-900 relative overflow-hidden text-center">
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-3 sm:p-6 bg-white border-b-2 border-[#E2E8F0] relative overflow-hidden text-center">
           
           {/* Audio button ONLY shown AFTER answered to avoid giveaway */}
           {isAnswered && (
-            <div className="absolute top-1.5 right-1.5 sm:top-2.5 sm:right-2.5 flex items-center gap-1 animate-fade-in z-20">
+            <div className="absolute top-2 right-2 sm:top-3 sm:right-3 flex items-center gap-1 animate-fade-in z-20">
               <button
                 type="button"
                 onClick={() => {
@@ -304,50 +301,50 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
                 }}
                 aria-label="Replay pronunciation"
                 title="Replay Japanese pronunciation"
-                className="flex items-center gap-1 px-2 py-0.5 rounded-md bg-white border border-neutral-300 text-neutral-800 hover:text-neutral-950 hover:border-neutral-900 shadow-xs transition-all text-[11px] font-semibold cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329] hover:border-[#1A73E8] hover:text-[#1A73E8] shadow-2xs transition-all text-xs font-bold cursor-pointer"
               >
-                <Volume2 className="w-3 h-3 text-neutral-700" />
+                <Volume2 className="w-3.5 h-3.5 text-[#1A73E8]" />
                 <span>Hear</span>
               </button>
             </div>
           )}
 
-          {/* Prompt Display */}
-          <div className="my-auto w-full flex flex-col items-center justify-center">
+          {/* Prompt Display - Large, well-proportioned with no dead space */}
+          <div className="my-auto w-full flex flex-col items-center justify-center py-1 sm:py-2">
             
             {/* EXERCISE 1: Hiragana single char */}
             {exerciseType === 'hiragana-to-romaji' && currentQuestion.character && (
               <div className="flex flex-col items-center">
-                <span className="block text-6xl sm:text-8xl md:text-9xl font-black text-neutral-950 tracking-wide select-none drop-shadow-xs font-['Noto_Sans_JP',_sans-serif] leading-none">
+                <span className="block text-7xl sm:text-9xl md:text-[9.5rem] font-black text-[#1F2329] tracking-wide select-none font-['Noto_Sans_JP',_sans-serif] leading-none drop-shadow-2xs">
                   {currentQuestion.character.kana}
                 </span>
-                <p className="text-[10px] sm:text-xs text-neutral-500 font-medium mt-1 sm:mt-2">Choose correct Romaji</p>
+                <p className="text-xs sm:text-sm text-[#5F6368] font-bold mt-2">Choose the correct Romaji reading</p>
               </div>
             )}
 
             {/* EXERCISE 2: Romaji single syllable */}
             {exerciseType === 'romaji-to-hiragana' && currentQuestion.character && (
               <div className="flex flex-col items-center">
-                <div className="inline-block px-5 py-1.5 sm:px-7 sm:py-2 rounded-xl sm:rounded-2xl bg-neutral-900 text-white shadow-xs">
-                  <span className="text-4xl sm:text-6xl font-extrabold tracking-wider font-mono">
+                <div className="inline-block px-7 py-2.5 sm:px-12 sm:py-4 rounded-2xl bg-[#1F2329] text-white shadow-md">
+                  <span className="text-5xl sm:text-7xl md:text-8xl font-black tracking-wider font-mono">
                     {currentQuestion.character.romaji}
                   </span>
                 </div>
-                <p className="text-[10px] sm:text-xs text-neutral-500 font-medium mt-1 sm:mt-2">Choose matching Hiragana</p>
+                <p className="text-xs sm:text-sm text-[#5F6368] font-bold mt-2 sm:mt-3">Choose the matching Hiragana character</p>
               </div>
             )}
 
             {/* EXERCISE 3: Picture + Romaji -> Choose Hiragana */}
             {exerciseType === 'word-romaji-to-hiragana' && currentQuestion.word && (
-              <div className="flex flex-col items-center space-y-1">
-                <div className="p-1 sm:p-2 bg-white rounded-xl border border-neutral-200 shadow-xs flex items-center justify-center">
-                  <WordIllustration name={currentQuestion.word.iconName} className="w-14 h-14 sm:w-20 sm:h-20" />
+              <div className="flex flex-col items-center space-y-1.5 sm:space-y-2">
+                <div className="p-2 sm:p-3 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
+                  <WordIllustration name={currentQuestion.word.iconName} className="w-18 h-18 sm:w-26 sm:h-26" />
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="inline-block px-3 py-0.5 sm:px-4 sm:py-1 rounded-lg bg-neutral-900 text-white font-mono text-xl sm:text-3xl font-extrabold">
+                  <div className="inline-block px-5 py-1 sm:px-6 sm:py-1.5 rounded-xl bg-[#1F2329] text-white font-mono text-2xl sm:text-4xl font-extrabold shadow-xs">
                     {currentQuestion.word.romaji}
                   </div>
-                  <span className="text-[10px] sm:text-xs text-neutral-500 font-semibold mt-0.5">
+                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-1">
                     {currentQuestion.word.english}
                   </span>
                 </div>
@@ -356,15 +353,15 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
 
             {/* EXERCISE 4: Picture + Hiragana -> Choose Romaji */}
             {exerciseType === 'word-hiragana-to-romaji' && currentQuestion.word && (
-              <div className="flex flex-col items-center space-y-1">
-                <div className="p-1 sm:p-2 bg-white rounded-xl border border-neutral-200 shadow-xs flex items-center justify-center">
-                  <WordIllustration name={currentQuestion.word.iconName} className="w-14 h-14 sm:w-20 sm:h-20" />
+              <div className="flex flex-col items-center space-y-1.5 sm:space-y-2">
+                <div className="p-2 sm:p-3 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
+                  <WordIllustration name={currentQuestion.word.iconName} className="w-18 h-18 sm:w-26 sm:h-26" />
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="text-2xl sm:text-4xl font-black text-neutral-950 font-['Noto_Sans_JP',_sans-serif] tracking-wider">
+                  <span className="text-3xl sm:text-5xl font-black text-[#1F2329] font-['Noto_Sans_JP',_sans-serif] tracking-wider">
                     {currentQuestion.word.kana}
                   </span>
-                  <span className="text-[10px] sm:text-xs text-neutral-500 font-semibold mt-0.5">
+                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-1">
                     {currentQuestion.word.english}
                   </span>
                 </div>
@@ -377,18 +374,18 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
           {currentQuestion.character?.hint && (
             <div className="mt-1">
               {showHint ? (
-                <div className="text-[10px] sm:text-[11px] bg-amber-50 border border-amber-200 text-amber-900 px-2 py-0.5 rounded-md inline-flex items-center gap-1 max-w-xs animate-fade-in">
-                  <Lightbulb className="w-3 h-3 text-amber-600 shrink-0" />
+                <div className="text-xs bg-amber-50 border border-amber-200 text-amber-900 px-3 py-1 rounded-lg inline-flex items-center gap-1.5 max-w-sm animate-fade-in shadow-2xs">
+                  <Lightbulb className="w-3.5 h-3.5 text-amber-600 shrink-0" />
                   <span className="truncate"><strong>Hint:</strong> {currentQuestion.character.hint}</span>
                 </div>
               ) : (
                 <button
                   type="button"
                   onClick={() => setShowHint(true)}
-                  className="text-[10px] sm:text-[11px] text-neutral-500 hover:text-neutral-900 flex items-center gap-1 underline underline-offset-2 transition-colors cursor-pointer"
+                  className="text-xs text-[#5F6368] hover:text-[#1A73E8] flex items-center gap-1 underline underline-offset-2 transition-colors cursor-pointer font-medium"
                 >
-                  <HelpCircle className="w-3 h-3" />
-                  Show mnemonic
+                  <HelpCircle className="w-3.5 h-3.5 text-[#1A73E8]" />
+                  Show mnemonic hint
                 </button>
               )}
             </div>
@@ -396,32 +393,32 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
         </div>
 
         {/* ================= BOTTOM HALF OF FLASHCARD: 3 OPTIONS ================= */}
-        <div className="p-2 sm:p-3.5 bg-white shrink-0">
-          <div className="text-center mb-1">
-            <span className="text-[9px] sm:text-[10px] font-bold text-neutral-400 uppercase tracking-widest">
+        <div className="p-3 sm:p-5 bg-[#F8FAFF] shrink-0">
+          <div className="text-center mb-1.5">
+            <span className="text-[11px] sm:text-xs font-bold text-[#5F6368] uppercase tracking-wider">
               Choose 1 of 3 options
             </span>
           </div>
 
-          {/* Exactly 3 Options Grid - 3 columns fitting nicely on mobile */}
-          <div className="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+          {/* Exactly 3 Options Grid - Spanning width comfortably */}
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {currentQuestion.options.map((option, idx) => {
               const isSelected = selectedOption === option;
               const isCorrectOption = option === currentQuestion.correctOption;
 
-              let buttonStyle = 'bg-white border-2 border-neutral-300 text-neutral-900 hover:border-neutral-900 hover:bg-neutral-50';
-              let badgeStyle = 'bg-neutral-100 text-neutral-600 border border-neutral-300';
+              let buttonStyle = 'bg-white border-2 border-[#CBD5E1] text-[#1F2329] hover:border-[#1A73E8] hover:bg-[#F8FAFF] shadow-xs';
+              let badgeStyle = 'bg-[#F1F5F9] text-[#5F6368] border border-[#CBD5E1]';
 
               if (isAnswered) {
                 if (isCorrectOption) {
-                  buttonStyle = 'bg-emerald-600 border-2 border-emerald-700 text-white shadow-md ring-2 ring-emerald-300 scale-[1.02]';
-                  badgeStyle = 'bg-emerald-700 text-emerald-100 border-emerald-800';
+                  buttonStyle = 'bg-[#16A34A] border-2 border-[#15803D] text-white shadow-md ring-2 ring-[#86EFAC] scale-[1.01]';
+                  badgeStyle = 'bg-[#15803D] text-white border-transparent';
                 } else if (isSelected && !isCorrectOption) {
-                  buttonStyle = 'bg-rose-600 border-2 border-rose-700 text-white shadow-xs ring-2 ring-rose-300';
-                  badgeStyle = 'bg-rose-700 text-rose-100 border-rose-800';
+                  buttonStyle = 'bg-[#E11D48] border-2 border-[#BE123C] text-white shadow-xs ring-2 ring-[#FDA4AF]';
+                  badgeStyle = 'bg-[#BE123C] text-white border-transparent';
                 } else {
-                  buttonStyle = 'bg-neutral-100 border-2 border-neutral-200 text-neutral-400 opacity-60';
-                  badgeStyle = 'bg-neutral-200 text-neutral-500 border-neutral-200';
+                  buttonStyle = 'bg-[#F8FAFF] border-2 border-[#E2E8F0] text-[#94A3B8] opacity-50';
+                  badgeStyle = 'bg-[#E2E8F0] text-[#94A3B8] border-transparent';
                 }
               }
 
@@ -433,31 +430,31 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
                   type="button"
                   disabled={isAnswered}
                   onClick={() => handleSelectOption(option)}
-                  className={`relative flex flex-col items-center justify-center p-2 sm:p-4 rounded-xl sm:rounded-2xl font-bold transition-all duration-150 cursor-pointer focus:outline-none min-h-[48px] sm:min-h-[66px] ${buttonStyle}`}
+                  className={`relative flex flex-col items-center justify-center p-2.5 sm:p-5 rounded-2xl font-bold transition-all duration-150 cursor-pointer focus:outline-none min-h-[56px] sm:min-h-[76px] ${buttonStyle}`}
                 >
                   {/* Keyboard Shortcut Indicator [1, 2, 3] */}
-                  <span className={`absolute top-1 left-1 text-[9px] font-mono font-bold px-1 py-0.2 rounded ${badgeStyle}`}>
+                  <span className={`absolute top-1.5 left-1.5 text-[10px] sm:text-xs font-mono font-bold px-1.5 py-0.2 rounded-md ${badgeStyle}`}>
                     {idx + 1}
                   </span>
 
                   {/* Option Text */}
                   <span className={`tracking-wide select-none text-center truncate w-full px-1 ${
                     isHiraganaOption
-                      ? "font-['Noto_Sans_JP',_sans-serif] text-lg sm:text-2xl my-0.5" 
-                      : 'font-mono text-base sm:text-xl font-extrabold'
+                      ? "font-['Noto_Sans_JP',_sans-serif] text-xl sm:text-3xl my-0.5 font-bold" 
+                      : 'font-mono text-lg sm:text-2xl font-black'
                   }`}>
                     {option}
                   </span>
 
                   {/* Answer Status Icon */}
                   {isAnswered && isCorrectOption && (
-                    <span className="absolute bottom-1 right-1 text-white flex items-center">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-200" />
+                    <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
+                      <CheckCircle2 className="w-4 h-4 text-white" />
                     </span>
                   )}
                   {isAnswered && isSelected && !isCorrectOption && (
-                    <span className="absolute bottom-1 right-1 text-white flex items-center">
-                      <XCircle className="w-3.5 h-3.5 text-rose-200" />
+                    <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
+                      <XCircle className="w-4 h-4 text-white" />
                     </span>
                   )}
                 </button>
@@ -466,21 +463,21 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
           </div>
 
           {/* Bottom Controls / Advancing */}
-          <div className="mt-1.5 pt-1 flex items-center justify-between text-[10px] text-neutral-500 border-t border-neutral-100">
-            <span className="hidden sm:inline">Press 1, 2, 3 to choose</span>
-            <span className="sm:hidden text-[10px]">Tap to choose</span>
+          <div className="mt-2 pt-1.5 flex items-center justify-between text-xs text-[#5F6368] border-t border-[#E2E8F0]">
+            <span className="hidden sm:inline font-medium">Use keyboard keys 1, 2, 3 or click an option</span>
+            <span className="sm:hidden text-[11px] font-medium">Tap option to choose</span>
 
             {isAnswered ? (
               <button
                 type="button"
                 onClick={() => handleAdvance()}
-                className="flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-neutral-900 text-white font-bold text-xs hover:bg-neutral-800 transition-all shadow-xs cursor-pointer"
+                className="flex items-center gap-1 px-3.5 py-1 rounded-xl bg-[#1A73E8] text-white font-bold text-xs sm:text-sm hover:bg-[#1557B0] transition-all shadow-xs cursor-pointer"
               >
                 <span>{currentIndex === 9 ? 'Finish' : 'Next'}</span>
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
-              <span className="text-[10px] text-neutral-400 font-mono">10 cards</span>
+              <span className="text-xs text-[#5F6368] font-mono font-medium">10 cards</span>
             )}
           </div>
         </div>

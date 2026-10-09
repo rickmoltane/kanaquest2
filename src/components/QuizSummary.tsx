@@ -94,62 +94,62 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
   const headerInfo = getExerciseHeader(result.exerciseType);
 
   return (
-    <div className="max-w-2xl mx-auto px-3 sm:px-4 py-3 sm:py-8">
+    <div className="max-w-3xl mx-auto px-3 sm:px-6 py-4 sm:py-8">
       {/* SCORE CARD */}
-      <div className="bg-white border-2 border-neutral-900 rounded-2xl sm:rounded-3xl shadow-lg overflow-hidden p-4 sm:p-8 text-center">
+      <div className="bg-white border-2 border-[#CBD5E1] rounded-2xl sm:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] overflow-hidden p-5 sm:p-8 text-center">
         
         {/* Top Trophy Icon */}
-        <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl bg-neutral-900 text-white mb-2 sm:mb-4 shadow-xs">
-          <Trophy className="w-6 h-6 sm:w-8 sm:h-8" />
+        <div className="inline-flex items-center justify-center w-14 h-14 sm:w-18 sm:h-18 rounded-2xl bg-[#E8F0FE] text-[#1A73E8] mb-3 sm:mb-4 shadow-2xs border border-[#BFDBFE]">
+          <Trophy className="w-7 h-7 sm:w-9 sm:h-9" />
         </div>
 
         {/* Title */}
-        <h2 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-neutral-600 mb-0.5">
+        <h2 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-[#5F6368] mb-0.5">
           {headerInfo.title}
         </h2>
-        <p className="text-[11px] sm:text-xs text-neutral-600 mb-1 sm:mb-2 font-medium">({headerInfo.sub})</p>
+        <p className="text-xs sm:text-sm text-[#1F2329] mb-2 font-bold">({headerInfo.sub})</p>
 
         {/* Percentage Score & Fraction */}
-        <div className="my-1 sm:my-3">
+        <div className="my-2 sm:my-3">
           <div className="flex items-baseline justify-center gap-1">
-            <span className="text-6xl sm:text-8xl font-black text-neutral-950 tracking-tight font-mono">
+            <span className="text-6xl sm:text-8xl font-black text-[#1F2329] tracking-tight font-mono">
               {result.percentage}
             </span>
-            <span className="text-3xl sm:text-5xl font-black text-neutral-500 font-mono">%</span>
+            <span className="text-3xl sm:text-5xl font-black text-[#1A73E8] font-mono">%</span>
           </div>
-          <p className="text-sm sm:text-base font-semibold text-neutral-700 mt-0.5">
+          <p className="text-sm sm:text-base font-bold text-[#1F2329] mt-0.5">
             {result.score} of {result.totalQuestions} Questions Correct
           </p>
         </div>
 
         {/* Japanese Praise Callout */}
-        <div className={`mt-2 mb-3 sm:mt-4 sm:mb-6 p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border ${praise.badgeColor} max-w-md mx-auto text-center`}>
+        <div className={`mt-2 mb-3 sm:mt-4 sm:mb-6 p-3 sm:p-4 rounded-2xl border ${praise.badgeColor} max-w-md mx-auto text-center shadow-2xs`}>
           <div className="flex items-center justify-center gap-2 mb-0.5">
-            <span className="text-lg sm:text-xl font-black tracking-wide font-['Noto_Sans_JP',_sans-serif]">{praise.ja}</span>
+            <span className="text-xl sm:text-2xl font-black tracking-wide font-['Noto_Sans_JP',_sans-serif]">{praise.ja}</span>
             <span className="text-xs font-semibold font-mono">({praise.romaji})</span>
           </div>
-          <p className="text-[11px] sm:text-xs text-neutral-700">{praise.en}</p>
+          <p className="text-xs sm:text-sm text-[#1F2329] font-medium">{praise.en}</p>
         </div>
 
         {/* Cloud Sync Status */}
         <div className="mb-4 sm:mb-6">
           {currentUser ? (
-            <div className="inline-flex items-center gap-1 text-[11px] sm:text-xs text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">
-              <CloudCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Saved to cloud &bull; Synced across devices</span>
+            <div className="inline-flex items-center gap-1.5 text-xs text-[#1A73E8] bg-[#E8F0FE] border border-[#BFDBFE] px-3 py-1.5 rounded-xl font-semibold">
+              <CloudCheck className="w-4 h-4 text-[#1A73E8]" />
+              <span>Result saved to your cloud profile &bull; Synced across devices</span>
             </div>
           ) : (
-            <div className="inline-flex flex-col sm:flex-row items-center gap-1.5 text-[11px] text-neutral-600 bg-neutral-50 border border-neutral-200 px-3 py-1.5 rounded-xl">
-              <div className="flex items-center gap-1">
-                <CloudAlert className="w-3.5 h-3.5 text-neutral-500" />
-                <span>Saved locally.</span>
+            <div className="inline-flex flex-col sm:flex-row items-center gap-2 text-xs text-[#5F6368] bg-[#F8FAFF] border border-[#E2E8F0] px-4 py-2 rounded-xl">
+              <div className="flex items-center gap-1.5">
+                <CloudAlert className="w-4 h-4 text-[#5F6368]" />
+                <span>Result saved locally on this device.</span>
               </div>
               <button
                 type="button"
                 onClick={loginWithGoogle}
-                className="font-bold text-neutral-900 underline hover:text-black flex items-center gap-1 cursor-pointer"
+                className="font-bold text-[#1A73E8] underline hover:text-[#1557B0] flex items-center gap-1 cursor-pointer"
               >
-                <LogIn className="w-3 h-3" />
+                <LogIn className="w-3.5 h-3.5" />
                 Sign in to sync across devices
               </button>
             </div>
@@ -157,31 +157,31 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
         </div>
 
         {/* Main Action Buttons */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 mb-6 sm:mb-8">
           <button
             type="button"
             onClick={onRetake}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-neutral-900 text-white font-bold text-xs sm:text-sm hover:bg-neutral-800 transition-all shadow-xs cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#1F2329] text-white font-bold text-xs sm:text-sm hover:bg-[#111317] transition-all shadow-xs cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <RotateCcw className="w-4 h-4" />
             <span>Practice Again</span>
           </button>
 
           <button
             type="button"
             onClick={() => onSwitchExercise(headerInfo.next)}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-white border-2 border-neutral-900 text-neutral-900 font-bold text-xs sm:text-sm hover:bg-neutral-50 transition-all shadow-xs cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#1A73E8] text-white font-bold text-xs sm:text-sm hover:bg-[#1557B0] transition-all shadow-xs cursor-pointer"
           >
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-4 h-4" />
             <span>{headerInfo.nextLabel}</span>
           </button>
 
           <button
             type="button"
             onClick={onOpenDashboard}
-            className="flex items-center justify-center gap-2 px-3 py-2.5 rounded-xl bg-neutral-100 text-neutral-800 font-bold text-xs sm:text-sm hover:bg-neutral-200 transition-all cursor-pointer"
+            className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329] font-bold text-xs sm:text-sm hover:bg-[#EDF2F7] transition-all cursor-pointer"
           >
-            <BarChart3 className="w-3.5 h-3.5" />
+            <BarChart3 className="w-4 h-4 text-[#1A73E8]" />
             <span>Progress History</span>
           </button>
         </div>

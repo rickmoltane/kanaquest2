@@ -87,7 +87,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
     ctx.clearRect(0, 0, width, height);
 
     // 1. Draw Japanese Kanji grid guidelines (dashed quadrant lines)
-    ctx.strokeStyle = '#e4e4e7'; // zinc-200
+    ctx.strokeStyle = '#E2E8F0';
     ctx.lineWidth = 1.5;
     ctx.setLineDash([6, 6]);
 
@@ -104,7 +104,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
     ctx.stroke();
 
     // Diagonal lines
-    ctx.strokeStyle = '#f4f4f5';
+    ctx.strokeStyle = '#F1F5F9';
     ctx.beginPath();
     ctx.moveTo(0, 0);
     ctx.lineTo(width, height);
@@ -118,7 +118,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
     completedStrokes.forEach(stroke => {
       if (stroke.points.length < 2) return;
       ctx.beginPath();
-      ctx.strokeStyle = '#059669'; // emerald-600
+      ctx.strokeStyle = '#16A34A'; // emerald-600
       ctx.lineWidth = 14;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -135,7 +135,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
     // 3. Draw active stroke in progress
     if (currentStrokePoints.length > 1) {
       ctx.beginPath();
-      ctx.strokeStyle = '#18181b'; // zinc-900 sumi ink
+      ctx.strokeStyle = '#1A73E8'; // Accent Blue
       ctx.lineWidth = 14;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
@@ -173,15 +173,18 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
 
   const handlePointerDown = (e: React.PointerEvent<HTMLCanvasElement>) => {
     if (isCharacterCompleted || !currentChar) return;
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    e.preventDefault();
+    try {
+      (e.target as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {}
     setIsDrawing(true);
     const pt = getCanvasCoords(e);
     setCurrentStrokePoints([pt]);
-    setFeedback(null);
   };
 
   const handlePointerMove = (e: React.PointerEvent<HTMLCanvasElement>) => {
     if (!isDrawing) return;
+    e.preventDefault();
     const pt = getCanvasCoords(e);
     setCurrentStrokePoints(prev => [...prev, pt]);
   };
@@ -400,41 +403,40 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
   const currentScore = answers.filter(a => a.isCorrect).length;
 
   return (
-    <div className="h-full flex flex-col justify-between max-w-lg mx-auto px-2 sm:px-4 py-1 sm:py-2 overflow-hidden select-none">
+    <div className="h-full flex flex-col justify-between max-w-3xl sm:max-w-4xl mx-auto w-full px-3 sm:px-6 py-1.5 sm:py-3 overflow-hidden select-none">
       {/* Top Header */}
-      <div className="shrink-0 mb-0.5 sm:mb-1">
-        <div className="flex items-center justify-between text-xs mb-0.5 px-0.5">
-          <div className="flex items-center gap-1.5">
-            <span className="font-extrabold text-neutral-900 text-xs">Exercise 5</span>
-            <span className="text-neutral-500 font-medium text-[11px] hidden xs:inline">
-              (Stroke Tracing)
+      <div className="shrink-0 mb-1">
+        <div className="flex items-center justify-between text-xs sm:text-sm mb-1 px-0.5">
+          <div className="flex items-center gap-2">
+            <span className="font-mono font-bold text-xs sm:text-sm px-2.5 py-0.5 rounded-lg bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329]">
+              Card {currentIndex + 1} / 10
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5">
-            <span className="text-[10px] sm:text-[11px] font-bold px-1.5 py-0.5 rounded-md bg-neutral-100 text-neutral-800">
-              Score: <strong className="text-neutral-900">{currentScore}</strong> / {currentIndex + (isCharacterCompleted ? 1 : 0)}
+          <div className="flex items-center gap-2">
+            <span className="text-xs sm:text-sm font-bold px-2 py-0.5 rounded-lg bg-[#E8F0FE] text-[#1A73E8] border border-[#BFDBFE]">
+              Score: <strong>{currentScore}</strong> / {currentIndex + (isCharacterCompleted ? 1 : 0)}
             </span>
             <button
               type="button"
               onClick={initSession}
               title="Restart session"
-              className="text-neutral-500 hover:text-neutral-900 p-0.5 rounded hover:bg-neutral-100 transition-colors cursor-pointer"
+              className="text-[#5F6368] hover:text-[#1F2329] p-1 rounded-md hover:bg-[#EDF2F7] transition-colors cursor-pointer"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-4 h-4" />
             </button>
           </div>
         </div>
 
         {/* 10-Segment Progress Bar */}
-        <div className="grid grid-cols-10 gap-0.5 sm:gap-1 h-1.5 w-full bg-neutral-100 p-0.5 rounded-full">
+        <div className="grid grid-cols-10 gap-1 sm:gap-1.5 h-2 w-full bg-[#E2E8F0] p-0.5 rounded-full">
           {Array.from({ length: 10 }).map((_, idx) => {
             const answer = answers[idx];
-            let segmentClass = 'bg-neutral-200';
+            let segmentClass = 'bg-[#CBD5E1]';
             if (idx === currentIndex && !isCharacterCompleted) {
-              segmentClass = 'bg-neutral-900 ring-1 ring-neutral-400';
+              segmentClass = 'bg-[#1A73E8] ring-2 ring-[#93C5FD]';
             } else if (answer) {
-              segmentClass = answer.isCorrect ? 'bg-emerald-600' : 'bg-rose-500';
+              segmentClass = answer.isCorrect ? 'bg-[#16A34A]' : 'bg-[#E11D48]';
             }
             return (
               <div
@@ -445,87 +447,49 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
             );
           })}
         </div>
-        <div className="flex justify-between items-center text-[9px] sm:text-[10px] text-neutral-400 mt-0.5 px-0.5">
-          <span>Card {currentIndex + 1} of 10</span>
-          <span>Trace over the 30% faded outline</span>
+        <div className="flex justify-between items-center text-[10px] sm:text-xs text-[#5F6368] mt-0.5 px-0.5 font-medium">
+          <span>Progress</span>
+          <span>Trace over the 30% faded Hiragana outline</span>
         </div>
       </div>
 
-      {/* DRAWING CARD - Fills vertical viewport without scrolling */}
-      <div className="flex-1 min-h-0 flex flex-col justify-between bg-white border-2 border-neutral-900 rounded-2xl sm:rounded-3xl shadow-sm p-2 sm:p-4 overflow-hidden my-0.5 sm:my-1">
+      {/* DRAWING CARD - Stable, no moving box */}
+      <div className="flex-1 min-h-0 flex flex-col justify-between bg-white border-2 border-[#CBD5E1] rounded-2xl sm:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] p-3 sm:p-5 overflow-hidden my-1">
         
-        {/* Top Info Bar */}
-        <div className="shrink-0 mb-1">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <div className="px-2.5 py-0.5 rounded-lg bg-neutral-900 text-white font-mono text-lg sm:text-2xl font-black">
+        {/* Top: BIG, CENTRAL, HIGHLY VISIBLE ROMAJI */}
+        <div className="shrink-0 mb-1 sm:mb-2 flex items-center justify-center relative w-full">
+          {/* Centered Large Romaji Showcase */}
+          <div className="flex items-center justify-center">
+            <div className="px-8 py-2 sm:px-16 sm:py-3 rounded-2xl bg-[#1F2329] text-white shadow-md border border-[#333] flex items-center justify-center">
+              <span className="text-5xl sm:text-7xl font-black font-mono tracking-widest leading-none select-none">
                 {currentChar.romaji}
-              </div>
-              <div>
-                <p className="text-[9px] sm:text-[10px] text-neutral-500 font-bold uppercase tracking-wider">
-                  Trace in Stroke Order
-                </p>
-                <p className="text-[10px] sm:text-[11px] text-neutral-800 font-semibold">
-                  {currentChar.totalStrokes} Stroke{currentChar.totalStrokes > 1 ? 's' : ''} total
-                </p>
-              </div>
+              </span>
             </div>
+          </div>
 
-            {/* Pronounce Button */}
-            {isCharacterCompleted && (
+          {/* Hear pronunciation button positioned cleanly on the right when completed */}
+          {isCharacterCompleted && (
+            <div className="absolute right-0 top-1/2 -translate-y-1/2">
               <button
                 type="button"
                 onClick={() => speakKana(currentChar.kana)}
-                className="flex items-center gap-1 text-[11px] font-bold text-neutral-900 bg-neutral-100 hover:bg-neutral-200 px-2 py-0.5 rounded-md transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#1A73E8] bg-[#E8F0FE] hover:bg-[#D2E3FC] px-3 py-1.5 rounded-xl border border-[#BFDBFE] transition-colors cursor-pointer shadow-xs"
+                title="Hear pronunciation"
               >
-                <Volume2 className="w-3 h-3" />
-                <span>Hear</span>
+                <Volume2 className="w-4 h-4" />
+                <span className="hidden sm:inline">Hear</span>
               </button>
-            )}
-          </div>
-
-          {/* Stroke Step Indicator Chips */}
-          <div className="flex items-center gap-1 mt-1 overflow-x-auto pb-0.5 scrollbar-none">
-            {currentChar.strokes.map((st, idx) => {
-              const isDone = idx < currentStrokeIndex || isCharacterCompleted;
-              const isCurrent = idx === currentStrokeIndex && !isCharacterCompleted;
-
-              return (
-                <div
-                  key={idx}
-                  className={`flex items-center gap-0.5 px-1.5 py-0.2 rounded text-[10px] font-bold transition-all whitespace-nowrap ${
-                    isDone
-                      ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                      : isCurrent
-                      ? 'bg-neutral-900 text-white shadow-xs ring-1 ring-neutral-400'
-                      : 'bg-neutral-100 text-neutral-500 border border-neutral-200'
-                  }`}
-                >
-                  <span>Stroke {idx + 1}</span>
-                  {isDone && <CheckCircle2 className="w-2.5 h-2.5 text-emerald-700" />}
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Current Stroke Guidance */}
-          {currentStroke && !isCharacterCompleted && (
-            <div className="text-[10px] bg-neutral-50 border border-neutral-200 rounded px-2 py-0.5 mt-0.5 text-neutral-800 flex items-center justify-between">
-              <span className="flex items-center gap-1 truncate font-medium">
-                <Edit3 className="w-2.5 h-2.5 text-neutral-700 shrink-0" />
-                <span className="truncate"><strong>Stroke {currentStroke.strokeNumber}:</strong> {currentStroke.instruction}</span>
-              </span>
             </div>
           )}
         </div>
 
-        {/* ================= DRAWING CANVAS CONTAINER ================= */}
-        <div className="flex-1 min-h-0 w-full flex items-center justify-center p-0.5 sm:p-2 overflow-hidden my-auto">
-          <div className="relative aspect-square h-full max-h-[min(38vh,260px)] sm:max-h-[310px] w-auto border-2 border-neutral-900 rounded-xl sm:rounded-2xl bg-white shadow-inner overflow-hidden touch-none flex items-center justify-center">
+        {/* ================= DRAWING CANVAS CONTAINER (STABLE, CENTERED) ================= */}
+        <div className="flex-1 min-h-0 w-full flex items-center justify-center p-1 sm:p-2 overflow-hidden">
+          <div className="relative aspect-square h-full max-h-[min(48vh,360px)] w-auto border-2 border-[#CBD5E1] rounded-2xl bg-white shadow-inner overflow-hidden touch-none select-none flex items-center justify-center">
             
             {/* FADED HIRAGANA OUTLINE: FONT 200, 30% OPACITY */}
             <div 
-              className="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-['Noto_Sans_JP',_sans-serif] font-black text-[120px] sm:text-[190px] leading-none text-black"
+              className="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-['Noto_Sans_JP',_sans-serif] font-black text-[140px] sm:text-[220px] leading-none text-[#1F2329]"
               style={{ opacity: 0.30 }}
             >
               {currentChar.kana}
@@ -542,10 +506,10 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
                     <div
                       key={idx}
                       style={{ left: `${st.startPoint.x}%`, top: `${st.startPoint.y}%` }}
-                      className={`absolute -translate-x-1/2 -translate-y-1/2 w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center text-[9px] font-mono font-bold shadow-xs transition-all ${
+                      className={`absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold shadow-xs transition-all ${
                         isCurrent
-                          ? 'bg-rose-600 text-white ring-2 ring-rose-200 scale-110 animate-pulse'
-                          : 'bg-neutral-800 text-white opacity-60'
+                          ? 'bg-[#1A73E8] text-white ring-3 ring-[#93C5FD] scale-110'
+                          : 'bg-[#1F2329] text-white opacity-60'
                       }`}
                     >
                       {st.strokeNumber}
@@ -555,73 +519,83 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
               </div>
             )}
 
-            {/* HTML5 Interactive Drawing Canvas */}
+            {/* HTML5 Interactive Drawing Canvas with touch-none */}
             <canvas
               ref={canvasRef}
-              width={340}
-              height={340}
+              width={380}
+              height={380}
               onPointerDown={handlePointerDown}
               onPointerMove={handlePointerMove}
               onPointerUp={handlePointerUp}
-              className="w-full h-full cursor-crosshair relative z-10"
+              style={{ touchAction: 'none' }}
+              className="w-full h-full cursor-crosshair relative z-10 touch-none select-none block"
             />
           </div>
         </div>
 
-        {/* Bottom Feedback Banner */}
-        {feedback && (
-          <div className={`mt-0.5 py-0.5 px-2 rounded-md text-[10px] sm:text-[11px] font-semibold flex items-center gap-1.5 animate-fade-in shrink-0 ${
-            feedback.type === 'success'
-              ? 'bg-emerald-50 text-emerald-900 border border-emerald-200'
-              : 'bg-rose-50 text-rose-900 border border-rose-200'
-          }`}>
-            {feedback.type === 'success' ? (
-              <CheckCircle2 className="w-3 h-3 text-emerald-600 shrink-0" />
-            ) : (
-              <XCircle className="w-3 h-3 text-rose-600 shrink-0" />
-            )}
-            <span className="truncate">{feedback.message}</span>
-          </div>
-        )}
+        {/* CONSTANT-HEIGHT STATUS & GUIDANCE BAR (Prevents layout jumping!) */}
+        <div className="h-8 sm:h-9 shrink-0 flex items-center justify-center px-1 my-1">
+          {feedback ? (
+            <div className={`w-full py-1 px-3 rounded-xl text-xs sm:text-sm font-bold flex items-center justify-center gap-2 animate-fade-in ${
+              feedback.type === 'success'
+                ? 'bg-[#DCFCE7] text-[#166534] border border-[#86EFAC]'
+                : 'bg-[#FFE4E6] text-[#9F1239] border border-[#FECDD3]'
+            }`}>
+              {feedback.type === 'success' ? (
+                <CheckCircle2 className="w-4 h-4 text-[#166534] shrink-0" />
+              ) : (
+                <XCircle className="w-4 h-4 text-[#9F1239] shrink-0" />
+              )}
+              <span className="truncate">{feedback.message}</span>
+            </div>
+          ) : currentStroke && !isCharacterCompleted ? (
+            <div className="w-full py-1 px-3 rounded-xl text-xs sm:text-sm bg-[#F8FAFF] border border-[#E2E8F0] text-[#1F2329] font-medium flex items-center justify-center gap-2 truncate">
+              <Edit3 className="w-3.5 h-3.5 text-[#1A73E8] shrink-0" />
+              <span className="truncate">{currentStroke.instruction}</span>
+            </div>
+          ) : (
+            <div className="text-xs text-[#5F6368] font-medium">Trace over the faded outline in order</div>
+          )}
+        </div>
 
         {/* Action Controls */}
-        <div className="mt-0.5 pt-1 flex items-center justify-between gap-1 border-t border-neutral-100 shrink-0 text-xs">
-          <div className="flex items-center gap-1">
+        <div className="pt-2 flex items-center justify-between gap-2 border-t border-[#E2E8F0] shrink-0 text-xs sm:text-sm">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <button
               type="button"
               onClick={handleClearCurrentStroke}
               disabled={completedStrokes.length === 0 || isCharacterCompleted}
-              className="px-2 py-0.5 rounded-md border border-neutral-300 text-neutral-700 hover:text-neutral-900 text-[10px] sm:text-[11px] font-bold disabled:opacity-30 cursor-pointer"
+              className="px-3 py-1.5 rounded-xl border border-[#CBD5E1] text-[#1F2329] hover:bg-[#F8FAFF] hover:border-[#1A73E8] text-xs sm:text-sm font-bold disabled:opacity-30 cursor-pointer transition-colors"
             >
               Undo
             </button>
             <button
               type="button"
               onClick={handleResetCharacter}
-              className="px-2 py-0.5 rounded-md border border-neutral-300 text-neutral-700 hover:text-neutral-900 text-[10px] sm:text-[11px] font-bold cursor-pointer"
+              className="px-3 py-1.5 rounded-xl border border-[#CBD5E1] text-[#1F2329] hover:bg-[#F8FAFF] hover:border-[#1A73E8] text-xs sm:text-sm font-bold cursor-pointer transition-colors"
             >
               Clear
             </button>
           </div>
 
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setShowStrokeNumbers(prev => !prev)}
-              className="p-1 text-neutral-500 hover:text-neutral-900 rounded hover:bg-neutral-100 cursor-pointer"
+              className="p-1.5 text-[#5F6368] hover:text-[#1F2329] rounded-lg hover:bg-[#F8FAFF] border border-transparent hover:border-[#E2E8F0] transition-colors cursor-pointer"
               title={showStrokeNumbers ? 'Hide start numbers' : 'Show start numbers'}
             >
-              {showStrokeNumbers ? <Eye className="w-3.5 h-3.5" /> : <EyeOff className="w-3.5 h-3.5 text-neutral-400" />}
+              {showStrokeNumbers ? <Eye className="w-4 h-4 text-[#1A73E8]" /> : <EyeOff className="w-4 h-4 text-[#94A3B8]" />}
             </button>
 
             {isCharacterCompleted && (
               <button
                 type="button"
                 onClick={() => handleAdvance()}
-                className="flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-neutral-900 text-white font-bold text-xs hover:bg-neutral-800 transition-all shadow-xs cursor-pointer"
+                className="flex items-center gap-1.5 px-4 py-1.5 rounded-xl bg-[#1A73E8] text-white font-bold text-xs sm:text-sm hover:bg-[#1557B0] transition-all shadow-xs cursor-pointer"
               >
                 <span>{currentIndex === 9 ? 'Finish' : 'Next'}</span>
-                <ArrowRight className="w-3 h-3" />
+                <ArrowRight className="w-4 h-4" />
               </button>
             )}
           </div>
