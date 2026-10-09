@@ -6,10 +6,7 @@ import {
   Grid3X3, 
   Volume2, 
   VolumeX, 
-  Cloud, 
-  CloudCheck, 
-  LogIn, 
-  LogOut
+  Cookie
 } from 'lucide-react';
 
 export type ActiveTab = 'exercise-1' | 'exercise-2' | 'exercise-3' | 'exercise-4' | 'exercise-5' | 'dashboard' | 'chart';
@@ -43,7 +40,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setSoundEnabled,
   onStartExercise,
 }) => {
-  const { currentUser, loginWithGoogle, logout, isSyncing } = useAuth();
+  const { guestUser, profile } = useAuth();
 
   const handleSelectTab = (tabId: ActiveTab, type?: ExerciseType) => {
     if (type) {
@@ -51,6 +48,8 @@ export const Navbar: React.FC<NavbarProps> = ({
     }
     setActiveTab(tabId);
   };
+
+  const displayName = profile?.displayName || guestUser.displayName;
 
   return (
     <header className="shrink-0 z-40 w-full border-b border-[#E2E8F0] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.05)]">
@@ -95,8 +94,8 @@ export const Navbar: React.FC<NavbarProps> = ({
             })}
           </div>
 
-          {/* Right Utilities: Progress, Chart, Sound, Cloud */}
-          <div className="flex items-center gap-1.5 shrink-0">
+          {/* Right Utilities: Progress, Chart, Sound, Recognized Guest Badge */}
+          <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
             {/* Quick Link: Progress Dashboard */}
             <button
               type="button"
@@ -136,41 +135,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               {soundEnabled ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-[#1A73E8]" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5 text-[#5F6368]" />}
             </button>
 
-            {/* Cloud Sync Status */}
-            {currentUser ? (
-              <div className="flex items-center gap-1 pl-1 border-l border-[#E2E8F0]">
-                <div 
-                  className="flex items-center gap-1 text-xs text-[#1A73E8] font-bold px-2 py-1 rounded-xl bg-[#E8F0FE] border border-[#BFDBFE]"
-                  title="Cloud Synced"
-                >
-                  {isSyncing ? (
-                    <Cloud className="w-3.5 h-3.5 animate-pulse text-[#1A73E8]" />
-                  ) : (
-                    <CloudCheck className="w-3.5 h-3.5 text-[#1A73E8]" />
-                  )}
-                  <span className="hidden md:inline">Sync</span>
-                </div>
-                <button
-                  type="button"
-                  onClick={logout}
-                  aria-label="Sign out"
-                  title="Sign out"
-                  className="p-1 text-[#5F6368] hover:text-[#1F2329] rounded cursor-pointer"
-                >
-                  <LogOut className="w-3.5 h-3.5" />
-                </button>
-              </div>
-            ) : (
-              <button
-                type="button"
-                onClick={loginWithGoogle}
-                className="flex items-center gap-1 px-3 py-1.5 text-xs font-bold rounded-xl bg-[#1A73E8] text-white hover:bg-[#1557B0] transition-colors cursor-pointer shadow-xs"
-                title="Sign in with Google"
-              >
-                <LogIn className="w-3 h-3" />
-                <span>Sync</span>
-              </button>
-            )}
+            {/* Recognized Guest Account via Cookie */}
+            <button
+              type="button"
+              onClick={() => handleSelectTab('dashboard')}
+              className="flex items-center gap-1 sm:gap-1.5 px-2 sm:px-2.5 py-1.5 rounded-xl bg-[#F8FAFF] border border-[#CBD5E1] hover:border-[#1A73E8] hover:bg-[#E8F0FE] text-[#1F2329] transition-all cursor-pointer group"
+              title={`Recognized Guest Account: ${displayName}\nTracked via cookie (no login/registration required)`}
+            >
+              <Cookie className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#1A73E8] shrink-0 group-hover:rotate-12 transition-transform" />
+              <span className="text-[11px] sm:text-xs font-bold font-mono text-[#1F2329] max-w-[70px] sm:max-w-[110px] truncate">
+                {displayName}
+              </span>
+            </button>
           </div>
         </div>
 

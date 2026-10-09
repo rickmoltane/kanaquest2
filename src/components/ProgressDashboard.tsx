@@ -10,17 +10,14 @@ import {
   Target, 
   Calendar, 
   CheckCircle2, 
-  RefreshCw, 
-  Clock, 
-  Volume2, 
-  Cloud, 
-  CloudCheck, 
   AlertCircle,
-  Filter,
   Trophy,
   ArrowUpRight,
-  Sparkles,
-  LogIn
+  Cookie,
+  Pencil,
+  Check,
+  X,
+  Volume2
 } from 'lucide-react';
 
 interface ProgressDashboardProps {
@@ -28,11 +25,20 @@ interface ProgressDashboardProps {
 }
 
 export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onStartExercise }) => {
-  const { currentUser, profile, history, isSyncing, refreshUserData, loginWithGoogle } = useAuth();
+  const { guestUser, profile, history, updateDisplayName } = useAuth();
   const [filterType, setFilterType] = useState<'all' | ExerciseType>('all');
   const [selectedKana, setSelectedKana] = useState<string | null>(null);
+  const [isEditingName, setIsEditingName] = useState<boolean>(false);
+  const [tempName, setTempName] = useState<string>(profile?.displayName || guestUser.displayName);
 
   const masteryData = getLocalMastery();
+
+  const handleSaveName = () => {
+    if (tempName.trim()) {
+      updateDisplayName(tempName.trim());
+    }
+    setIsEditingName(false);
+  };
 
   // Filter history
   const filteredHistory = history.filter(item => {
@@ -73,51 +79,97 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({ onStartExe
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 sm:py-10 space-y-8">
-      {/* Top Header & Cloud Status */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-neutral-200">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl sm:text-3xl font-black text-neutral-900 tracking-tight">
-              Learning Progress Dashboard
-            </h1>
-            <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-700">
-              Hiragana 46
-            </span>
+      {/* Top Header & Recognized Guest Profile Card */}
+      <div className="flex flex-col gap-5 pb-6 border-b border-[#E2E8F0]">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div className="flex items-center gap-2">
+              <h1 className="text-2xl sm:text-3xl font-black text-[#1F2329] tracking-tight">
+                Learning Progress Dashboard
+              </h1>
+              <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-[#E8F0FE] text-[#1A73E8] border border-[#BFDBFE]">
+                Hiragana 46
+              </span>
+            </div>
+            <p className="text-sm text-[#5F6368] mt-1">
+              Track quiz scores, accuracy history over time, and character mastery.
+            </p>
           </div>
-          <p className="text-sm text-neutral-600 mt-1">
-            Track quiz scores, accuracy history over time, and character mastery across all devices.
-          </p>
         </div>
 
-        {/* Sync Controls */}
-        <div className="flex items-center gap-3">
-          {currentUser ? (
-            <div className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 px-3 py-1.5 rounded-xl">
-              <CloudCheck className="w-4 h-4 text-emerald-600" />
-              <div className="text-xs">
-                <span className="font-semibold text-neutral-800">Cloud Sync Active</span>
-                <span className="text-neutral-600 block text-[11px] truncate max-w-[140px]">{currentUser.email}</span>
-              </div>
-              <button
-                type="button"
-                onClick={refreshUserData}
-                disabled={isSyncing}
-                title="Sync latest data with cloud"
-                className="p-1 hover:bg-neutral-200 rounded text-neutral-600 ml-1 transition-colors"
-              >
-                <RefreshCw className={`w-3.5 h-3.5 ${isSyncing ? 'animate-spin' : ''}`} />
-              </button>
+        {/* Cookie-Tracked Guest Recognition Banner */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-[#F8FAFF] border-2 border-[#CBD5E1] p-3.5 sm:p-4 rounded-2xl">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-white border border-[#CBD5E1] flex items-center justify-center text-[#1A73E8] shadow-2xs shrink-0">
+              <Cookie className="w-5 h-5 text-[#1A73E8]" />
             </div>
-          ) : (
-            <button
-              type="button"
-              onClick={loginWithGoogle}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#1A73E8] text-white text-xs font-bold hover:bg-[#1557B0] transition-all shadow-xs cursor-pointer"
-            >
-              <LogIn className="w-3.5 h-3.5" />
-              <span>Sign in for Cloud Sync</span>
-            </button>
-          )}
+            <div>
+              <div className="flex items-center gap-2">
+                {isEditingName ? (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSaveName();
+                    }}
+                    className="flex items-center gap-1.5"
+                  >
+                    <input
+                      type="text"
+                      value={tempName}
+                      onChange={(e) => setTempName(e.target.value)}
+                      maxLength={25}
+                      placeholder="Your nickname"
+                      className="px-2 py-0.5 text-xs font-bold rounded-lg border border-[#1A73E8] bg-white text-[#1F2329] focus:outline-hidden"
+                      autoFocus
+                    />
+                    <button
+                      type="submit"
+                      className="p-1 rounded bg-[#1A73E8] text-white hover:bg-[#1557B0] transition-colors cursor-pointer"
+                      title="Save nickname"
+                    >
+                      <Check className="w-3.5 h-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditingName(false)}
+                      className="p-1 rounded bg-[#E2E8F0] text-[#5F6368] hover:bg-[#CBD5E1] transition-colors cursor-pointer"
+                      title="Cancel"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </form>
+                ) : (
+                  <div className="flex items-center gap-1.5">
+                    <span className="font-extrabold text-sm sm:text-base text-[#1F2329]">
+                      {profile?.displayName || guestUser.displayName}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setTempName(profile?.displayName || guestUser.displayName);
+                        setIsEditingName(true);
+                      }}
+                      className="p-1 text-[#5F6368] hover:text-[#1A73E8] rounded cursor-pointer transition-colors"
+                      title="Customize guest nickname"
+                    >
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
+                <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-md bg-[#E8F0FE] text-[#1A73E8] border border-[#BFDBFE]">
+                  {guestUser.guestId}
+                </span>
+              </div>
+              <p className="text-xs text-[#5F6368] mt-0.5">
+                Cookie tracked &bull; No registration needed &bull; Auto-recognized on return &bull; Visit #{guestUser.visitCount}
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-1.5 self-start sm:self-auto text-xs font-semibold text-[#1A73E8] bg-white px-3 py-1.5 rounded-xl border border-[#CBD5E1]">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>Recognized via cookie</span>
+          </div>
         </div>
       </div>
 

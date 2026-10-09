@@ -232,6 +232,7 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
   };
 
   const exerciseTitle = getExerciseTitle();
+  const isWordExercise = exerciseType === 'word-romaji-to-hiragana' || exerciseType === 'word-hiragana-to-romaji';
 
   return (
     <div className="h-full flex flex-col justify-between max-w-3xl sm:max-w-4xl mx-auto w-full px-3 sm:px-6 py-1.5 sm:py-3 overflow-hidden select-none">
@@ -288,7 +289,7 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
       <div className="flex-1 min-h-0 flex flex-col bg-white border-2 border-[#CBD5E1] rounded-2xl sm:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.06)] overflow-hidden my-1">
         
         {/* ================= TOP PART OF FLASHCARD ================= */}
-        <div className="flex-1 min-h-0 flex flex-col items-center justify-center p-3 sm:p-6 bg-white border-b-2 border-[#E2E8F0] relative overflow-hidden text-center">
+        <div className={`flex-1 min-h-0 flex flex-col items-center justify-center ${isWordExercise ? 'p-2 sm:p-4' : 'p-3 sm:p-6'} bg-white border-b-2 border-[#E2E8F0] relative overflow-hidden text-center`}>
           
           {/* Audio button ONLY shown AFTER answered to avoid giveaway */}
           {isAnswered && (
@@ -336,15 +337,15 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
 
             {/* EXERCISE 3: Picture + Romaji -> Choose Hiragana */}
             {exerciseType === 'word-romaji-to-hiragana' && currentQuestion.word && (
-              <div className="flex flex-col items-center space-y-1.5 sm:space-y-2">
-                <div className="p-2 sm:p-3 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
-                  <WordIllustration name={currentQuestion.word.iconName} className="w-18 h-18 sm:w-26 sm:h-26" />
+              <div className="flex flex-col items-center justify-center space-y-1 sm:space-y-1.5">
+                <div className="p-2 sm:p-2.5 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
+                  <WordIllustration name={currentQuestion.word.iconName} className="w-16 h-16 sm:w-22 sm:h-22" />
                 </div>
                 <div className="flex flex-col items-center">
-                  <div className="inline-block px-5 py-1 sm:px-6 sm:py-1.5 rounded-xl bg-[#1F2329] text-white font-mono text-2xl sm:text-4xl font-extrabold shadow-xs">
+                  <div className="inline-block px-4 py-0.5 sm:px-6 sm:py-1 rounded-xl bg-[#1F2329] text-white font-mono text-xl sm:text-3xl font-extrabold shadow-xs">
                     {currentQuestion.word.romaji}
                   </div>
-                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-1">
+                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-0.5">
                     {currentQuestion.word.english}
                   </span>
                 </div>
@@ -353,15 +354,15 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
 
             {/* EXERCISE 4: Picture + Hiragana -> Choose Romaji */}
             {exerciseType === 'word-hiragana-to-romaji' && currentQuestion.word && (
-              <div className="flex flex-col items-center space-y-1.5 sm:space-y-2">
-                <div className="p-2 sm:p-3 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
-                  <WordIllustration name={currentQuestion.word.iconName} className="w-18 h-18 sm:w-26 sm:h-26" />
+              <div className="flex flex-col items-center justify-center space-y-1 sm:space-y-1.5">
+                <div className="p-2 sm:p-2.5 bg-[#F8FAFF] rounded-2xl border border-[#CBD5E1] shadow-2xs flex items-center justify-center">
+                  <WordIllustration name={currentQuestion.word.iconName} className="w-16 h-16 sm:w-22 sm:h-22" />
                 </div>
                 <div className="flex flex-col items-center">
-                  <span className="text-3xl sm:text-5xl font-black text-[#1F2329] font-['Noto_Sans_JP',_sans-serif] tracking-wider">
+                  <span className="text-2xl sm:text-4xl font-black text-[#1F2329] font-['Noto_Sans_JP',_sans-serif] tracking-wider">
                     {currentQuestion.word.kana}
                   </span>
-                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-1">
+                  <span className="text-xs sm:text-sm text-[#5F6368] font-bold mt-0.5">
                     {currentQuestion.word.english}
                   </span>
                 </div>
@@ -376,7 +377,7 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
               {showHint ? (
                 <div className="text-xs bg-amber-50 border border-amber-200 text-amber-900 px-3 py-1 rounded-lg inline-flex items-center gap-1.5 max-w-sm animate-fade-in shadow-2xs">
                   <Lightbulb className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                  <span className="truncate"><strong>Hint:</strong> {currentQuestion.character.hint}</span>
+                  <span><strong>Hint:</strong> {currentQuestion.character.hint}</span>
                 </div>
               ) : (
                 <button
@@ -393,74 +394,139 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
         </div>
 
         {/* ================= BOTTOM HALF OF FLASHCARD: 3 OPTIONS ================= */}
-        <div className="p-3 sm:p-5 bg-[#F8FAFF] shrink-0">
-          <div className="text-center mb-1.5">
+        <div className={`${isWordExercise ? 'p-2.5 sm:p-4' : 'p-3 sm:p-5'} bg-[#F8FAFF] shrink-0`}>
+          <div className="text-center mb-1 sm:mb-1.5">
             <span className="text-[11px] sm:text-xs font-bold text-[#5F6368] uppercase tracking-wider">
               Choose 1 of 3 options
             </span>
           </div>
 
-          {/* Exactly 3 Options Grid - Spanning width comfortably */}
-          <div className="grid grid-cols-3 gap-2 sm:gap-4">
-            {currentQuestion.options.map((option, idx) => {
-              const isSelected = selectedOption === option;
-              const isCorrectOption = option === currentQuestion.correctOption;
+          {/* Options: Exercises 3 & 4 (words) get an expanded full row each, never chopped. Exercises 1 & 2 use 3 columns. */}
+          {isWordExercise ? (
+            <div className="flex flex-col gap-2 sm:gap-2.5 w-full">
+              {currentQuestion.options.map((option, idx) => {
+                const isSelected = selectedOption === option;
+                const isCorrectOption = option === currentQuestion.correctOption;
 
-              let buttonStyle = 'bg-white border-2 border-[#CBD5E1] text-[#1F2329] hover:border-[#1A73E8] hover:bg-[#F8FAFF] shadow-xs';
-              let badgeStyle = 'bg-[#F1F5F9] text-[#5F6368] border border-[#CBD5E1]';
+                let buttonStyle = 'bg-white border-2 border-[#CBD5E1] text-[#1F2329] hover:border-[#1A73E8] hover:bg-[#F8FAFF] shadow-xs';
+                let badgeStyle = 'bg-[#F1F5F9] text-[#5F6368] border border-[#CBD5E1]';
 
-              if (isAnswered) {
-                if (isCorrectOption) {
-                  buttonStyle = 'bg-[#16A34A] border-2 border-[#15803D] text-white shadow-md ring-2 ring-[#86EFAC] scale-[1.01]';
-                  badgeStyle = 'bg-[#15803D] text-white border-transparent';
-                } else if (isSelected && !isCorrectOption) {
-                  buttonStyle = 'bg-[#E11D48] border-2 border-[#BE123C] text-white shadow-xs ring-2 ring-[#FDA4AF]';
-                  badgeStyle = 'bg-[#BE123C] text-white border-transparent';
-                } else {
-                  buttonStyle = 'bg-[#F8FAFF] border-2 border-[#E2E8F0] text-[#94A3B8] opacity-50';
-                  badgeStyle = 'bg-[#E2E8F0] text-[#94A3B8] border-transparent';
+                if (isAnswered) {
+                  if (isCorrectOption) {
+                    buttonStyle = 'bg-[#16A34A] border-2 border-[#15803D] text-white shadow-md ring-2 ring-[#86EFAC]';
+                    badgeStyle = 'bg-[#15803D] text-white border-transparent';
+                  } else if (isSelected && !isCorrectOption) {
+                    buttonStyle = 'bg-[#E11D48] border-2 border-[#BE123C] text-white shadow-xs ring-2 ring-[#FDA4AF]';
+                    badgeStyle = 'bg-[#BE123C] text-white border-transparent';
+                  } else {
+                    buttonStyle = 'bg-[#F8FAFF] border-2 border-[#E2E8F0] text-[#94A3B8] opacity-50';
+                    badgeStyle = 'bg-[#E2E8F0] text-[#94A3B8] border-transparent';
+                  }
                 }
-              }
 
-              const isHiraganaOption = /[\u3040-\u309F]/.test(option);
+                const isHiraganaOption = /[\u3040-\u309F]/.test(option);
 
-              return (
-                <button
-                  key={idx}
-                  type="button"
-                  disabled={isAnswered}
-                  onClick={() => handleSelectOption(option)}
-                  className={`relative flex flex-col items-center justify-center p-2.5 sm:p-5 rounded-2xl font-bold transition-all duration-150 cursor-pointer focus:outline-none min-h-[56px] sm:min-h-[76px] ${buttonStyle}`}
-                >
-                  {/* Keyboard Shortcut Indicator [1, 2, 3] */}
-                  <span className={`absolute top-1.5 left-1.5 text-[10px] sm:text-xs font-mono font-bold px-1.5 py-0.2 rounded-md ${badgeStyle}`}>
-                    {idx + 1}
-                  </span>
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={isAnswered}
+                    onClick={() => handleSelectOption(option)}
+                    className={`relative flex items-center justify-between w-full px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-2xl font-bold transition-all duration-150 cursor-pointer focus:outline-none min-h-[44px] sm:min-h-[50px] ${buttonStyle}`}
+                  >
+                    {/* Left: Keyboard Shortcut Indicator [1, 2, 3] & Full Word Text */}
+                    <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                      <span className={`text-xs sm:text-sm font-mono font-bold px-2 py-0.5 rounded-md shrink-0 ${badgeStyle}`}>
+                        {idx + 1}
+                      </span>
 
-                  {/* Option Text */}
-                  <span className={`tracking-wide select-none text-center truncate w-full px-1 ${
-                    isHiraganaOption
-                      ? "font-['Noto_Sans_JP',_sans-serif] text-xl sm:text-3xl my-0.5 font-bold" 
-                      : 'font-mono text-lg sm:text-2xl font-black'
-                  }`}>
-                    {option}
-                  </span>
+                      {/* Full Option Word: NEVER chopped, full characters always visible */}
+                      <span className={`tracking-wider select-none text-left whitespace-nowrap overflow-visible ${
+                        isHiraganaOption
+                          ? "font-['Noto_Sans_JP',_sans-serif] text-xl sm:text-2xl font-bold" 
+                          : 'font-mono text-lg sm:text-xl font-black'
+                      }`}>
+                        {option}
+                      </span>
+                    </div>
 
-                  {/* Answer Status Icon */}
-                  {isAnswered && isCorrectOption && (
-                    <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
-                      <CheckCircle2 className="w-4 h-4 text-white" />
+                    {/* Right: Answer Status Icon */}
+                    {isAnswered && isCorrectOption && (
+                      <span className="shrink-0 ml-2 text-white flex items-center">
+                        <CheckCircle2 className="w-5 h-5 text-white" />
+                      </span>
+                    )}
+                    {isAnswered && isSelected && !isCorrectOption && (
+                      <span className="shrink-0 ml-2 text-white flex items-center">
+                        <XCircle className="w-5 h-5 text-white" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="grid grid-cols-3 gap-2 sm:gap-4">
+              {currentQuestion.options.map((option, idx) => {
+                const isSelected = selectedOption === option;
+                const isCorrectOption = option === currentQuestion.correctOption;
+
+                let buttonStyle = 'bg-white border-2 border-[#CBD5E1] text-[#1F2329] hover:border-[#1A73E8] hover:bg-[#F8FAFF] shadow-xs';
+                let badgeStyle = 'bg-[#F1F5F9] text-[#5F6368] border border-[#CBD5E1]';
+
+                if (isAnswered) {
+                  if (isCorrectOption) {
+                    buttonStyle = 'bg-[#16A34A] border-2 border-[#15803D] text-white shadow-md ring-2 ring-[#86EFAC] scale-[1.01]';
+                    badgeStyle = 'bg-[#15803D] text-white border-transparent';
+                  } else if (isSelected && !isCorrectOption) {
+                    buttonStyle = 'bg-[#E11D48] border-2 border-[#BE123C] text-white shadow-xs ring-2 ring-[#FDA4AF]';
+                    badgeStyle = 'bg-[#BE123C] text-white border-transparent';
+                  } else {
+                    buttonStyle = 'bg-[#F8FAFF] border-2 border-[#E2E8F0] text-[#94A3B8] opacity-50';
+                    badgeStyle = 'bg-[#E2E8F0] text-[#94A3B8] border-transparent';
+                  }
+                }
+
+                const isHiraganaOption = /[\u3040-\u309F]/.test(option);
+
+                return (
+                  <button
+                    key={idx}
+                    type="button"
+                    disabled={isAnswered}
+                    onClick={() => handleSelectOption(option)}
+                    className={`relative flex flex-col items-center justify-center p-2.5 sm:p-5 rounded-2xl font-bold transition-all duration-150 cursor-pointer focus:outline-none min-h-[56px] sm:min-h-[76px] ${buttonStyle}`}
+                  >
+                    {/* Keyboard Shortcut Indicator [1, 2, 3] */}
+                    <span className={`absolute top-1.5 left-1.5 text-[10px] sm:text-xs font-mono font-bold px-1.5 py-0.2 rounded-md ${badgeStyle}`}>
+                      {idx + 1}
                     </span>
-                  )}
-                  {isAnswered && isSelected && !isCorrectOption && (
-                    <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
-                      <XCircle className="w-4 h-4 text-white" />
+
+                    {/* Option Text: No truncate */}
+                    <span className={`tracking-wide select-none text-center whitespace-nowrap overflow-visible w-full px-1 ${
+                      isHiraganaOption
+                        ? "font-['Noto_Sans_JP',_sans-serif] text-xl sm:text-3xl my-0.5 font-bold" 
+                        : 'font-mono text-lg sm:text-2xl font-black'
+                    }`}>
+                      {option}
                     </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+
+                    {/* Answer Status Icon */}
+                    {isAnswered && isCorrectOption && (
+                      <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
+                        <CheckCircle2 className="w-4 h-4 text-white" />
+                      </span>
+                    )}
+                    {isAnswered && isSelected && !isCorrectOption && (
+                      <span className="absolute bottom-1.5 right-1.5 text-white flex items-center">
+                        <XCircle className="w-4 h-4 text-white" />
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          )}
 
           {/* Bottom Controls / Advancing */}
           <div className="mt-2 pt-1.5 flex items-center justify-between text-xs text-[#5F6368] border-t border-[#E2E8F0]">

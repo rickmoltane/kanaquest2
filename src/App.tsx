@@ -13,9 +13,17 @@ import { ProgressDashboard } from './components/ProgressDashboard';
 import { CharacterTable } from './components/CharacterTable';
 import { ExerciseType, QuizResult } from './types';
 import { saveQuizResult } from './services/storageService';
+import { Cookie, X } from 'lucide-react';
 
 function MainContent() {
-  const { currentUser, refreshUserData } = useAuth();
+  const { 
+    currentUser, 
+    guestUser, 
+    profile, 
+    refreshUserData, 
+    showWelcomeBack, 
+    dismissWelcomeBack 
+  } = useAuth();
 
   const [activeTab, setActiveTab] = useState<ActiveTab>('exercise-1');
   const [currentQuizType, setCurrentQuizType] = useState<ExerciseType>('hiragana-to-romaji');
@@ -54,12 +62,13 @@ function MainContent() {
   const handleQuizComplete = async (result: QuizResult) => {
     setActiveResult(result);
 
-    // Save to local storage and Firestore Cloud DB
+    // Save to local storage and Cloud under guest account
     try {
+      const effectiveUserId = currentUser ? currentUser.uid : guestUser.guestId;
       await saveQuizResult(
-        currentUser ? currentUser.uid : null,
+        effectiveUserId,
         result,
-        currentUser ? { email: currentUser.email || undefined, displayName: currentUser.displayName || undefined } : undefined
+        { displayName: profile?.displayName || guestUser.displayName }
       );
       // Refresh Auth context stats
       await refreshUserData();
@@ -165,20 +174,50 @@ function MainContent() {
 
       {/* Minimal Footer (only shown when not in active 1-screen exercise) */}
       {!isExerciseView && (
-        <footer className="border-t border-neutral-200 py-4 px-4 bg-white text-xs text-neutral-600 text-center shrink-0">
+        <footer className="border-t border-[#E2E8F0] py-4 px-4 bg-white text-xs text-[#5F6368] text-center shrink-0">
           <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-neutral-900">KanaQuest</span>
+              <span className="font-bold text-[#1F2329]">KanaQuest</span>
               <span>&bull;</span>
               <span>Minimalist Japanese Trainer</span>
             </div>
-            <div className="flex items-center gap-3 text-neutral-500 text-[11px]">
+            <div className="flex items-center gap-3 text-[#5F6368] text-[11px]">
               <span>Single-Screen Mobile Layout</span>
               <span>&bull;</span>
-              <span>Cloud Sync Active</span>
+              <span className="flex items-center gap-1 text-[#1A73E8] font-semibold">
+                <Cookie className="w-3 h-3" />
+                <span>Guest Account Saved via Cookie</span>
+              </span>
             </div>
           </div>
         </footer>
+      )}
+
+      {/* Floating Welcome Back Banner for Returning Guests */}
+      {showWelcomeBack && (
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 animate-in fade-in slide-in-from-bottom-3 duration-300">
+          <div className="flex items-center gap-3 bg-[#1F2329] text-white px-4 py-3 rounded-2xl shadow-xl border border-neutral-700 max-w-sm">
+            <div className="w-8 h-8 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0">
+              <Cookie className="w-4.5 h-4.5" />
+            </div>
+            <div className="text-xs">
+              <p className="font-bold text-white">
+                Welcome back, {profile?.displayName || guestUser.displayName}!
+              </p>
+              <p className="text-neutral-300 text-[11px] mt-0.5">
+                Recognized via cookie &bull; Progress & streak loaded
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={dismissWelcomeBack}
+              className="p-1 text-neutral-400 hover:text-white rounded-lg transition-colors ml-auto cursor-pointer"
+              title="Dismiss"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );
