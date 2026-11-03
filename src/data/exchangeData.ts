@@ -12,7 +12,9 @@ export interface ExchangeItem {
     | 'daily-inquiry' 
     | 'time-days' 
     | 'demonstratives'
-    | 'classroom';
+    | 'classroom'
+    | 'food-drinks'
+    | 'dining-preferences';
   categoryLabel: string;
   situationTitle: string;
   englishMeaning: string;
@@ -2652,6 +2654,323 @@ export const EXCHANGE_DATA: ExchangeItem[] = [
       { romaji: 'Doko desu ka toire wa, sumimasen?', hiragana: 'どこですか といれは、すみません？', english: 'Inverted inquiry order' },
     ],
   },
+
+  // ==========================================
+  // BATCH 6 CONVERSATIONAL EXCHANGES:
+  // Food & Drink Preferences, Offers, Frequency & Dining Out
+  // ==========================================
+
+  // 1. Asking about meat preference vs fish
+  {
+    id: 'exch-meat-preference',
+    category: 'dining-preferences',
+    categoryLabel: 'Food Preferences',
+    situationTitle: 'Asking About Food Preferences (Meat vs Fish)',
+    englishMeaning: 'Do you like meat?',
+    promptSpeaker: 'Dinner Companion',
+    semanticPattern: 'food-preference-meat',
+    subjectEntity: 'companion',
+    spriteId: '05',
+    promptRomaji: 'Niku ga suki desu ka?',
+    promptHiragana: 'にくが すきですか？',
+    correctRomaji: 'Hai, niku ga suki desu. Sakana wa suki ja nai desu.',
+    correctHiragana: 'はい、にくが すきです。さかなは すきじゃないです。',
+    correctEnglish: 'Yes, I like meat. As for fish, I don\'t like it.',
+    distractors: [
+      { romaji: 'Hai, niku wa suki ja nai desu.', hiragana: 'はい、にくは すきじゃないです。', english: 'Contradictory affirmation with negative predicate' },
+      { romaji: 'Niku ga suki desu sakana wa desu.', hiragana: 'にくが すきです さかなは です。', english: 'Incomplete disjointed clause' },
+    ],
+    questionDistractors: [
+      { romaji: 'Niku no suki desu ka?', hiragana: 'にくの すきですか？', english: 'Particle error: "no" instead of "ga"' },
+      { romaji: 'Suki desu ka niku ga?', hiragana: 'すきですか にくが？', english: 'Inverted question order' },
+    ],
+  },
+
+  // 2. Asking what food someone likes
+  {
+    id: 'exch-what-food-like',
+    category: 'dining-preferences',
+    categoryLabel: 'Food Preferences',
+    situationTitle: 'Asking What Food Someone Likes',
+    englishMeaning: 'What food do you like?',
+    promptSpeaker: 'Colleague',
+    semanticPattern: 'food-preference-general',
+    subjectEntity: 'colleague',
+    spriteId: '10',
+    promptRomaji: 'Tabemono wa nani ga suki desu ka?',
+    promptHiragana: 'たべものは なにが すきですか？',
+    correctRomaji: 'Niku ga suki desu. Sakana mo suki desu.',
+    correctHiragana: 'にくが すきです。さかなも すきです。',
+    correctEnglish: 'I like meat. I also like fish.',
+    distractors: [
+      { romaji: 'Niku ga suki desu sakana mo arimasen.', hiragana: 'にくが すきです さかなも ありません。', english: 'Wrong existence verb for preference' },
+      { romaji: 'Tabemono wa nani desu niku.', hiragana: 'たべものは なにです にく。', english: 'Garbled question echo' },
+    ],
+    questionDistractors: [
+      { romaji: 'Tabemono ga nani wa suki desu ka?', hiragana: 'たべものが なには すきですか？', english: 'Swapped particles "ga" and "wa"' },
+      { romaji: 'Nani ga suki desu ka tabemono wa?', hiragana: 'なにが すきですか たべものは？', english: 'Inverted clause order' },
+    ],
+  },
+
+  // 3. Offering coffee (Accepting)
+  {
+    id: 'exch-coffee-offer-yes',
+    category: 'food-drinks',
+    categoryLabel: 'Drinks & Offers',
+    situationTitle: 'Offering Coffee (Accepting)',
+    englishMeaning: 'Would you like some coffee?',
+    promptSpeaker: 'Office Colleague',
+    semanticPattern: 'drink-offer-coffee-accept',
+    subjectEntity: 'colleague',
+    spriteId: '03',
+    promptRomaji: 'Kōhī o nomimasu ka?',
+    promptHiragana: 'こーひーを のみますか？',
+    correctRomaji: 'Hai, onegaishimasu.',
+    correctHiragana: 'はい、おねがいします。',
+    correctEnglish: 'Yes, please.',
+    distractors: [
+      { romaji: 'Hai, kōhī o nomimasen.', hiragana: 'はい、こーひーを のみません。', english: 'Contradictory positive affirmation with negative verb' },
+      { romaji: 'Ie, onegaishimasu.', hiragana: 'いえ、おねがいします。', english: 'Contradictory negative with "onegaishimasu"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kōhī ni nomimasu ka?', hiragana: 'こーひーに のみますか？', english: 'Particle error: "ni" instead of object marker "o"' },
+      { romaji: 'Nomimasu ka kōhī o?', hiragana: 'のみますか こーひーを？', english: 'Inverted clause order' },
+    ],
+  },
+
+  // 4. Offering coffee (Politely Declining)
+  {
+    id: 'exch-coffee-offer-no',
+    category: 'food-drinks',
+    categoryLabel: 'Drinks & Offers',
+    situationTitle: 'Offering Coffee (Politely Declining)',
+    englishMeaning: 'Would you like some coffee?',
+    promptSpeaker: 'Host',
+    semanticPattern: 'drink-offer-coffee-decline',
+    subjectEntity: 'host',
+    spriteId: '03',
+    promptRomaji: 'Kōhī o nomimasu ka?',
+    promptHiragana: 'こーひーを のみますか？',
+    correctRomaji: 'Ie, kekkō desu.',
+    correctHiragana: 'いえ、けっこうです。',
+    correctEnglish: 'No, thank you.',
+    distractors: [
+      { romaji: 'Hai, kekkō desu.', hiragana: 'はい、けっこうです。', english: 'Contradictory positive "hai" when declining' },
+      { romaji: 'Ie, nomimashō.', hiragana: 'いえ、のみましょう。', english: 'Contradictory invitation ending after declining' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kōhī de nomimasu ka?', hiragana: 'こーひーで のみますか？', english: 'Particle error: "de" instead of "o"' },
+      { romaji: 'Nomimasu ka kōhī wa?', hiragana: 'のみますか こーひーは？', english: 'Inverted inquiry order' },
+    ],
+  },
+
+  // 5. Asking about breakfast habit (Yes)
+  {
+    id: 'exch-breakfast-habit-yes',
+    category: 'food-drinks',
+    categoryLabel: 'Daily Meals & Habits',
+    situationTitle: 'Asking About Breakfast Habits',
+    englishMeaning: 'Do you always eat breakfast?',
+    promptSpeaker: 'Friend',
+    semanticPattern: 'breakfast-habit-inquiry',
+    subjectEntity: 'friend',
+    spriteId: '01',
+    promptRomaji: 'Itsumo asagohan o tabemasu ka?',
+    promptHiragana: 'いつも あさごはんを たべますか？',
+    correctRomaji: 'Hai, tabemasu. Pan to kudamono o yoku tabemasu.',
+    correctHiragana: 'はい、たべます。ぱんと くだものを よくたべます。',
+    correctEnglish: 'Yes, I do. I often eat bread and fruit.',
+    distractors: [
+      { romaji: 'Hai, asagohan wa tabemasen.', hiragana: 'はい、あさごはんは たべません。', english: 'Affirmative "hai" paired with negative verb' },
+      { romaji: 'Iie, pan to kudamono o itsumo tabemasu.', hiragana: 'いいえ、ぱんと くだものを いつも たべます。', english: 'Negative "iie" contradicting affirmative habit' },
+    ],
+    questionDistractors: [
+      { romaji: 'Itsumo asagohan ni tabemasu ka?', hiragana: 'いつも あさごはんに たべますか？', english: 'Particle error: "ni" instead of "o"' },
+      { romaji: 'Asagohan o tabemasu ka itsumo?', hiragana: 'あさごはんを たべますか いつも？', english: 'Adverb displaced to end of sentence' },
+    ],
+  },
+
+  // 6. Asking about breakfast habit (No)
+  {
+    id: 'exch-breakfast-habit-no',
+    category: 'food-drinks',
+    categoryLabel: 'Daily Meals & Habits',
+    situationTitle: 'Skipping Breakfast',
+    englishMeaning: 'Do you always eat breakfast?',
+    promptSpeaker: 'Colleague',
+    semanticPattern: 'breakfast-habit-skip',
+    subjectEntity: 'colleague',
+    spriteId: '04',
+    promptRomaji: 'Itsumo asagohan o tabemasu ka?',
+    promptHiragana: 'いつも あさごはんを たべますか？',
+    correctRomaji: 'Iie, asagohan wa tabemasen.',
+    correctHiragana: 'いいえ、あさごはんは たべません。',
+    correctEnglish: 'No, I don\'t eat breakfast.',
+    distractors: [
+      { romaji: 'Iie, asagohan o yoku tabemasu.', hiragana: 'いいえ、あさごはんを よくたべます。', english: 'Contradiction: "iie" with affirmative "tabemasu"' },
+      { romaji: 'Hai, asagohan wa tabemasen.', hiragana: 'はい、あさごはんは たべません。', english: 'Ungrammatical response pairing' },
+    ],
+    questionDistractors: [
+      { romaji: 'Itsumo asagohan de tabemasu ka?', hiragana: 'いつも あさごはんで たべますか？', english: 'Particle error: "de" instead of "o"' },
+      { romaji: 'Tabemasu ka asagohan o itsumo?', hiragana: 'たべますか あさごはんを いつも？', english: 'Inverted inquiry order' },
+    ],
+  },
+
+  // 7. Frequency of eating (What do you often eat?)
+  {
+    id: 'exch-frequency-eat',
+    category: 'food-drinks',
+    categoryLabel: 'Eating Frequency',
+    situationTitle: 'Describing Frequency of Foods Eaten',
+    englishMeaning: 'What do you often eat?',
+    promptSpeaker: 'Acquaintance',
+    semanticPattern: 'food-frequency-inquiry',
+    subjectEntity: 'acquaintance',
+    spriteId: '14',
+    promptRomaji: 'Nani o yoku tabemasu ka?',
+    promptHiragana: 'なにを よくたべますか？',
+    correctRomaji: 'Watashi wa pan to kudamono o yoku tabemasu. Tamago wa amari tabemasen.',
+    correctHiragana: 'わたしは ぱんと くだものを よくたべます。たまごは あまりたべません。',
+    correctEnglish: 'I often eat bread and fruit. I don\'t eat eggs very often.',
+    distractors: [
+      { romaji: 'Tamago wa amari tabemasu.', hiragana: 'たまごは あまりたべます。', english: 'Grammar error: "amari" must take a negative verb' },
+      { romaji: 'Pan to kudamono o zenzen tabemasu.', hiragana: 'ぱんと くだものを ぜんぜんたべます。', english: 'Grammar error: "zenzen" must take a negative verb' },
+    ],
+    questionDistractors: [
+      { romaji: 'Nani ga yoku tabemasu ka?', hiragana: 'なにが よくたべますか？', english: 'Particle error: "ga" instead of object marker "o"' },
+      { romaji: 'Yoku tabemasu ka nani o?', hiragana: 'よくたべますか なにを？', english: 'Inverted inquiry structure' },
+    ],
+  },
+
+  // 8. Where shall we eat today?
+  {
+    id: 'exch-where-eat-today',
+    category: 'dining-preferences',
+    categoryLabel: 'Dining Out',
+    situationTitle: 'Choosing a Restaurant Together',
+    englishMeaning: 'Where shall we eat today?',
+    promptSpeaker: 'Coworker at lunchtime',
+    semanticPattern: 'where-eat-today-invitation',
+    subjectEntity: 'coworker',
+    spriteId: '09',
+    promptRomaji: 'Kyō wa doko de tabemasu ka?',
+    promptHiragana: 'きょうは どこで たべますか？',
+    correctRomaji: 'Ano mise de tabemashō. Rāmen ga oishii desu yo.',
+    correctHiragana: 'あのみせで たべましょう。らーめんが おいしいですよ。',
+    correctEnglish: 'Let\'s eat at that restaurant over there. Their ramen is delicious!',
+    distractors: [
+      { romaji: 'Ano mise ni tabemashō. Rāmen ga karai.', hiragana: 'あのみせに たべましょう。らーめんが からい。', english: 'Particle error: "ni" instead of action location "de"' },
+      { romaji: 'Kyō wa doko de tabemashō ano mise.', hiragana: 'きょうは どこで たべましょう あのみせ。', english: 'Repetition of question stem' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kyō wa doko ni tabemasu ka?', hiragana: 'きょうは どこに たべますか？', english: 'Particle error: "ni" instead of location of action "de"' },
+      { romaji: 'Doko de tabemasu ka kyō wa?', hiragana: 'どこで たべますか きょうは？', english: 'Inverted topic placement' },
+    ],
+  },
+
+  // 9. Favourite food - Curry is number one
+  {
+    id: 'exch-curry-number-one',
+    category: 'dining-preferences',
+    categoryLabel: 'Food Preferences',
+    situationTitle: 'Stating Favourite Food (Curry)',
+    englishMeaning: 'What is your favourite dish?',
+    promptSpeaker: 'Friend',
+    semanticPattern: 'favourite-food-curry',
+    subjectEntity: 'friend',
+    spriteId: '10',
+    promptRomaji: 'Suki na ryōri wa nan desu ka?',
+    promptHiragana: 'すきなりょうりは なんですか？',
+    correctRomaji: 'Karē desu. Karē ga ichiban suki desu.',
+    correctHiragana: 'かれーです。かれーが いちばんすきです。',
+    correctEnglish: 'Curry. I like curry the most.',
+    distractors: [
+      { romaji: 'Karē desu. Karē o ichiban suki desu.', hiragana: 'かれーです。かれーを いちばんすきです。', english: 'Particle error: "o" instead of "ga" with suki' },
+      { romaji: 'Ichiban suki wa karē ga desu.', hiragana: 'いちばんすきは かれーが です。', english: 'Garbled syntax structure' },
+    ],
+    questionDistractors: [
+      { romaji: 'Suki na ryōri no nan desu ka?', hiragana: 'すきなりょうりの なんですか？', english: 'Particle error: "no" instead of "wa"' },
+      { romaji: 'Nan desu ka suki na ryōri wa?', hiragana: 'なんですか すきなりょうりは？', english: 'Inverted inquiry order' },
+    ],
+  },
+
+  // 10. Agreeing to invitation: Let's do that
+  {
+    id: 'exch-agree-lets-eat-there',
+    category: 'dining-preferences',
+    categoryLabel: 'Invitations & Agreement',
+    situationTitle: 'Agreeing to a Restaurant Proposal',
+    englishMeaning: 'Let\'s eat at that restaurant over there.',
+    promptSpeaker: 'Colleague',
+    semanticPattern: 'restaurant-suggestion-agreement',
+    subjectEntity: 'colleague',
+    spriteId: '16',
+    promptRomaji: 'Ano mise de tabemashō.',
+    promptHiragana: 'あのみせで たべましょう。',
+    correctRomaji: 'Jā, sō shimashō.',
+    correctHiragana: 'じゃあ、そうしましょう。',
+    correctEnglish: 'Okay, let\'s do that.',
+    distractors: [
+      { romaji: 'Iie, sō shimashō.', hiragana: 'いいえ、そうしましょう。', english: 'Contradictory negative with suggestion agreement' },
+      { romaji: 'Jā, ano mise o tabemashō.', hiragana: 'じゃあ、あのみせを たべましょう。', english: 'Ungrammatical object marker "o" on location' },
+    ],
+    questionDistractors: [
+      { romaji: 'Ano mise o tabemashō ka?', hiragana: 'あのみせを たべましょうか？', english: 'Particle error: "o" instead of "de"' },
+      { romaji: 'Tabemashō ano mise de?', hiragana: 'たべましょう あのみせで？', english: 'Inverted clause order' },
+    ],
+  },
+
+  // 11. Asking if curry is spicy
+  {
+    id: 'exch-curry-spicy-inquiry',
+    category: 'dining-preferences',
+    categoryLabel: 'Taste & Adjectives',
+    situationTitle: 'Asking If Food Is Spicy',
+    englishMeaning: 'Is that curry spicy?',
+    promptSpeaker: 'Friend looking at menu',
+    semanticPattern: 'taste-spicy-curry',
+    subjectEntity: 'friend',
+    spriteId: '05',
+    promptRomaji: 'Sono karē wa karai desu ka?',
+    promptHiragana: 'そのかれーは からいですか？',
+    correctRomaji: 'Hai, karai desu ga, totemo oishii desu yo.',
+    correctHiragana: 'はい、からいですが、とても おいしいですよ。',
+    correctEnglish: 'Yes, it is spicy, but very delicious!',
+    distractors: [
+      { romaji: 'Hai, karai desu ga, mazui desu yo.', hiragana: 'はい、からいですが、まずいですよ。', english: 'Unflattering contradiction' },
+      { romaji: 'Iie, karai desu ga oishii desu.', hiragana: 'いいえ、からいですが おいしいです。', english: 'Contradictory negation "iie" with "karai desu ga"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Sono karē ga karai desu ka?', hiragana: 'そのかれーが からいですか？', english: 'Topic marker "wa" replaced inappropriately with "ga"' },
+      { romaji: 'Karai desu ka sono karē wa?', hiragana: 'からいですか そのかれーは？', english: 'Inverted predicate' },
+    ],
+  },
+
+  // 12. Not drinking tea at all (Frequency: zenzen vs yoku)
+  {
+    id: 'exch-drink-frequency-tea-coffee',
+    category: 'food-drinks',
+    categoryLabel: 'Drink Frequency',
+    situationTitle: 'Describing Drink Habits (Tea vs Coffee)',
+    englishMeaning: 'Do you often drink tea?',
+    promptSpeaker: 'Colleague',
+    semanticPattern: 'drink-frequency-tea-coffee',
+    subjectEntity: 'colleague',
+    spriteId: '03',
+    promptRomaji: 'O-cha o yoku nomimasu ka?',
+    promptHiragana: 'おちゃを よくのみますか？',
+    correctRomaji: 'Iie, o-cha wa zenzen nomimasen. Kōhī o yoku nomimasu.',
+    correctHiragana: 'いいえ、おちゃは ぜんぜんのみません。こーひーを よくのみます。',
+    correctEnglish: 'No, I don\'t drink tea at all. I often drink coffee.',
+    distractors: [
+      { romaji: 'Iie, o-cha wa zenzen nomimasu.', hiragana: 'いいえ、おちゃは ぜんぜんのみます。', english: 'Grammar error: "zenzen" paired with affirmative verb' },
+      { romaji: 'Hai, o-cha wa amari nomimasen.', hiragana: 'はい、おちゃは あまりのみません。', english: 'Affirmative "hai" conflicting with negative habit' },
+    ],
+    questionDistractors: [
+      { romaji: 'O-cha ga yoku nomimasu ka?', hiragana: 'おちゃが よくのみますか？', english: 'Particle error: "ga" instead of object marker "o"' },
+      { romaji: 'Yoku nomimasu ka o-cha o?', hiragana: 'よくのみますか おちゃを？', english: 'Inverted inquiry order' },
+    ],
+  },
 ];
 
 export interface ExchangeOption {
@@ -2754,19 +3073,4 @@ export function getQuestionDistractors(
     { romaji: d1Romaji, hiragana: d1Hiragana, english: d1Desc },
     { romaji: d2Romaji, hiragana: d2Hiragana, english: d2Desc },
   ];
-}
-
-import { generateAdaptiveExchangeQuiz } from '../utils/adaptivePhraseEngine';
-
-/**
- * Generate an adaptive 10-question quiz drawn from the exchanged conversation items.
- * STRICT: 100% compliant with user curriculum database.
- * Supports:
- * - Anti-repetition & Spaced repetition (learned phrases deferred 3-4 days)
- * - Strict pattern diversity (no duplicate questions like 2x "where are you from" in same quiz)
- * - Subject variety (father, mother, man, woman, elderly, self, teacher, student)
- * - Bidirectional practice (50% Answer prompt -> Find question, 50% Question prompt -> Find reply)
- */
-export function generateExchangeQuiz(mode: 'romaji' | 'hiragana', count = 10): ExchangeQuizQuestion[] {
-  return generateAdaptiveExchangeQuiz(mode, count);
 }

@@ -17,7 +17,6 @@ export type ActiveTab =
   | 'exercise-4' 
   | 'exercise-5' 
   | 'exercise-6' 
-  | 'exercise-7' 
   | 'dashboard' 
   | 'chart'
   | 'vocab-db';
@@ -38,12 +37,11 @@ export interface ExerciseOption {
 
 export const EXERCISE_OPTIONS: ExerciseOption[] = [
   { id: 'exercise-1', exerciseType: 'hiragana-to-romaji', number: '1' },
-  { id: 'exercise-2', exerciseType: 'romaji-to-hiragana', number: '2' },
-  { id: 'exercise-3', exerciseType: 'word-romaji-to-hiragana', number: '3' },
-  { id: 'exercise-4', exerciseType: 'word-hiragana-to-romaji', number: '4' },
-  { id: 'exercise-5', exerciseType: 'hiragana-drawing', number: '5' },
-  { id: 'exercise-6', exerciseType: 'exchange-romaji', number: '6' },
-  { id: 'exercise-7', exerciseType: 'exchange-hiragana', number: '7' },
+  { id: 'exercise-2', exerciseType: 'word-romaji-to-hiragana', number: '2' },
+  { id: 'exercise-3', exerciseType: 'word-hiragana-to-romaji', number: '3' },
+  { id: 'exercise-4', exerciseType: 'hiragana-drawing', number: '4' },
+  { id: 'exercise-5', exerciseType: 'exchange-romaji', number: '5' },
+  { id: 'exercise-6', exerciseType: 'exchange-hiragana', number: '6' },
 ];
 
 export const Navbar: React.FC<NavbarProps> = ({

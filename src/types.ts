@@ -34,11 +34,11 @@ export interface QuizQuestion {
   word?: EverydayWord;
   prompt: string;
   promptType: 'kana' | 'romaji';
-  options: string[]; // exactly 3 options
+  options: string[]; // 6 options for Exercise 1, 3 for word exercises
   correctOption: string;
   secondaryPrompt?: string; // e.g. Romaji or Kana display
   adaptiveStatus?: 'unseen' | 'needs_practice' | 'proven' | 'review';
-  // Dual-selection for Exercises 3 & 4 (Written + Meaning)
+  // Dual-selection for Exercises 2 & 3 (Written + Meaning)
   meaningOptions?: string[]; // 3 English meanings shuffled independently
   correctMeaning?: string;   // Correct English meaning
 }

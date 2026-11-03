@@ -83,13 +83,12 @@ export const QuizSummary: React.FC<QuizSummaryProps> = ({
 
   const getExerciseHeader = (type: ExerciseType) => {
     switch (type) {
-      case 'hiragana-to-romaji': return { title: 'Exercise 1 Complete', sub: 'Hiragana → Romaji', next: 'romaji-to-hiragana' as ExerciseType, nextLabel: 'Try Exercise 2 (Romaji→Kana)' };
-      case 'romaji-to-hiragana': return { title: 'Exercise 2 Complete', sub: 'Romaji → Hiragana', next: 'word-romaji-to-hiragana' as ExerciseType, nextLabel: 'Try Exercise 3 (Words & Pictures)' };
-      case 'word-romaji-to-hiragana': return { title: 'Exercise 3 Complete', sub: 'Words: Pic + Romaji → Kana', next: 'word-hiragana-to-romaji' as ExerciseType, nextLabel: 'Try Exercise 4 (Reverse Word Quiz)' };
-      case 'word-hiragana-to-romaji': return { title: 'Exercise 4 Complete', sub: 'Words: Pic + Kana → Romaji', next: 'hiragana-drawing' as ExerciseType, nextLabel: 'Try Exercise 5 (Stroke Tracing)' };
-      case 'hiragana-drawing': return { title: 'Exercise 5 Complete', sub: 'Stroke Order Tracing', next: 'exchange-romaji' as ExerciseType, nextLabel: 'Try Exercise 6 (Conversation in Romaji)' };
-      case 'exchange-romaji': return { title: 'Exercise 6 Complete', sub: 'Romaji', next: 'exchange-hiragana' as ExerciseType, nextLabel: 'Try Exercise 7 (Hiragana)' };
-      case 'exchange-hiragana': return { title: 'Exercise 7 Complete', sub: 'Hiragana & Audio', next: 'hiragana-to-romaji' as ExerciseType, nextLabel: 'Try Exercise 1 (Kana Training)' };
+      case 'hiragana-to-romaji': return { title: 'Exercise 1 Complete', sub: 'Hiragana → Romaji (6 Options)', next: 'word-romaji-to-hiragana' as ExerciseType, nextLabel: 'Try Exercise 2 (Words)' };
+      case 'word-romaji-to-hiragana': return { title: 'Exercise 2 Complete', sub: 'Word Romaji → Hiragana + Meaning', next: 'word-hiragana-to-romaji' as ExerciseType, nextLabel: 'Try Exercise 3 (Reverse Word Quiz)' };
+      case 'word-hiragana-to-romaji': return { title: 'Exercise 3 Complete', sub: 'Word Hiragana → Romaji + Meaning', next: 'hiragana-drawing' as ExerciseType, nextLabel: 'Try Exercise 4 (Stroke Tracing)' };
+      case 'hiragana-drawing': return { title: 'Exercise 4 Complete', sub: '1st Stroke Tracing', next: 'exchange-romaji' as ExerciseType, nextLabel: 'Try Exercise 5 (Dialogue in Romaji)' };
+      case 'exchange-romaji': return { title: 'Exercise 5 Complete', sub: 'Dialogue Exchanges', next: 'exchange-hiragana' as ExerciseType, nextLabel: 'Try Exercise 6 (Audio-Only Dialogue)' };
+      case 'exchange-hiragana': return { title: 'Exercise 6 Complete', sub: 'Listening Dialogue (Audio-Only)', next: 'hiragana-to-romaji' as ExerciseType, nextLabel: 'Try Exercise 1 (Kana Training)' };
       default: return { title: 'Exercise Complete', sub: 'Practice', next: 'hiragana-to-romaji' as ExerciseType, nextLabel: 'Try Exercise 1' };
     }
   };

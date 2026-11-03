@@ -218,11 +218,25 @@ function selectAdaptiveItems<T>(
   };
 }
 
+const KANA_ROW_FAMILIES: Record<string, string[]> = {
+  vowel: ['a', 'i', 'u', 'e', 'o', 'aa', 'ai', 'ou'],
+  k: ['ka', 'ki', 'ku', 'ke', 'ko', 'kya', 'kyu', 'kyo'],
+  s: ['sa', 'shi', 'su', 'se', 'so', 'sha', 'shu', 'sho'],
+  t: ['ta', 'chi', 'tsu', 'te', 'to', 'cha', 'chu', 'cho'],
+  n: ['na', 'ni', 'nu', 'ne', 'no', 'nya', 'nyu', 'nyo'],
+  h: ['ha', 'hi', 'fu', 'he', 'ho', 'hya', 'hyu', 'hyo'],
+  m: ['ma', 'mi', 'mu', 'me', 'mo', 'mya', 'myu', 'myo'],
+  y: ['ya', 'yu', 'yo', 'yaa', 'yuu', 'yoo', 'wa', 'wo'],
+  r: ['ra', 'ri', 'ru', 're', 'ro', 'rya', 'ryu', 'ryo'],
+  w: ['wa', 'wo', 'n', 'waa', 'wi', 'we', 'ya', 'yu'],
+};
+
 /**
- * Generates an adaptive, non-repeating Hiragana quiz for Exercises 1 & 2:
+ * Generates an adaptive, non-repeating Hiragana quiz for Exercise 1:
+ * - 6 Options all from the SAME phonetic family (e.g., K-family: ka, ki, ku, ke, ko, kya)
  * - Dedicated Mistake Bucket: Characters missed are immediately reinforced in subsequent quizzes.
  * - Dedicated Discovery Bucket: Unfamiliar / unseen characters are actively prioritized.
- * - Easy / Mastered Characters are suppressed into a 3-day cooldown so user stops seeing the same easy questions.
+ * - Easy / Mastered Characters are suppressed into a 3-day cooldown.
  */
 export function generateAdaptiveKanaQuiz(
   exerciseType: 'hiragana-to-romaji' | 'romaji-to-hiragana',
@@ -244,17 +258,18 @@ export function generateAdaptiveKanaQuiz(
   // Record selected characters in recent history (intelligent cooldown excludes mistakes)
   recordRecentCharacters(selectedChars.map(c => c.kana));
 
-  // Build quiz questions with quality distractors
+  // Build quiz questions with 6 family-matched options for Exercise 1
   return selectedChars.map((char, index) => {
-    const pool = HIRAGANA_CHARACTERS.filter(c => c.kana !== char.kana);
-    const shuffledPool = shuffleArray(pool);
     const adaptiveStatus = statuses[char.kana] || 'unseen';
 
     if (exerciseType === 'hiragana-to-romaji') {
       const correctOption = char.romaji;
-      const distractor1 = shuffledPool[0].romaji;
-      const distractor2 = shuffledPool.find(c => c.romaji !== distractor1 && c.romaji !== correctOption)?.romaji || shuffledPool[1].romaji;
-      const options = shuffleArray([correctOption, distractor1, distractor2]);
+      // Get all candidate syllables from the exact same family (all start with same consonant K, S, etc.)
+      const familyPool = KANA_ROW_FAMILIES[char.row] || KANA_ROW_FAMILIES.k;
+      const distractorCandidates = shuffleArray(familyPool.filter(opt => opt !== correctOption));
+      // Select 5 distractors to form exactly 6 options
+      const distractors = distractorCandidates.slice(0, 5);
+      const options = shuffleArray([correctOption, ...distractors]);
 
       return {
         questionNumber: index + 1,
@@ -266,7 +281,9 @@ export function generateAdaptiveKanaQuiz(
         adaptiveStatus,
       };
     } else {
-      // romaji-to-hiragana
+      // Legacy fallback for romaji-to-hiragana
+      const pool = HIRAGANA_CHARACTERS.filter(c => c.kana !== char.kana);
+      const shuffledPool = shuffleArray(pool);
       const correctOption = char.kana;
       const distractor1 = shuffledPool[0].kana;
       const distractor2 = shuffledPool.find(c => c.kana !== distractor1 && c.kana !== correctOption)?.kana || shuffledPool[1].kana;

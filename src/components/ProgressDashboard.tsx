@@ -298,50 +298,43 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
               num: '1',
               type: 'hiragana-to-romaji' as ExerciseType,
               name: 'Exercise 1: Kana → Romaji',
-              desc: 'Flashcard character shown on top; pick correct Romaji from 3 options.',
-              tag: '10 Cards / Round',
+              desc: 'Hiragana prompt on top; choose matching Romaji from 6 family-matched options.',
+              tag: '6 Family Choices',
             },
             {
               num: '2',
-              type: 'romaji-to-hiragana' as ExerciseType,
-              name: 'Exercise 2: Romaji → Kana',
-              desc: 'Romaji sound shown on top; pick correct Hiragana from 3 options.',
-              tag: 'Reverse Recall',
+              type: 'word-romaji-to-hiragana' as ExerciseType,
+              name: 'Exercise 2: Everyday Words (Romaji → Kana + Meaning)',
+              desc: 'Romaji word prompt on top; select BOTH the Hiragana spelling and English meaning.',
+              tag: 'Dual Selection',
             },
             {
               num: '3',
-              type: 'word-romaji-to-hiragana' as ExerciseType,
-              name: 'Exercise 3: Everyday Words (Pic + Romaji → Kana)',
-              desc: 'Everyday item illustration + Romaji; pick matching Hiragana spelling.',
-              tag: 'Approved User Vocab',
+              type: 'word-hiragana-to-romaji' as ExerciseType,
+              name: 'Exercise 3: Everyday Words (Kana → Romaji + Meaning)',
+              desc: 'Hiragana word prompt on top; select BOTH the Romaji reading and English meaning.',
+              tag: 'Dual Selection',
             },
             {
               num: '4',
-              type: 'word-hiragana-to-romaji' as ExerciseType,
-              name: 'Exercise 4: Everyday Words (Pic + Kana → Romaji)',
-              desc: 'Everyday item illustration + Hiragana; pick matching Romaji reading.',
-              tag: 'Syllable Matching',
+              type: 'hiragana-drawing' as ExerciseType,
+              name: 'Exercise 4: Hiragana Stroke Tracing',
+              desc: '1st stroke shadow shown — draw the rest of the character in stroke order from memory.',
+              tag: '1st Stroke Shadow',
             },
             {
               num: '5',
-              type: 'hiragana-drawing' as ExerciseType,
-              name: 'Exercise 5: Hiragana Stroke Tracing',
-              desc: 'Draw over the 30% faded Hiragana outline in proper stroke order.',
-              tag: 'Kinesthetic Drawing',
+              type: 'exchange-romaji' as ExerciseType,
+              name: 'Exercise 5: Conversational Exchanges (Romaji + Meaning)',
+              desc: 'Romaji conversational prompt on top; select BOTH the written reply and English meaning.',
+              tag: 'Dual Selection',
             },
             {
               num: '6',
-              type: 'exchange-romaji' as ExerciseType,
-              name: 'Exercise 6: Conversational Exchanges (Romaji)',
-              desc: 'Read the prompt question in Romaji and select the polite, natural reply.',
-              tag: 'Romaji Dialogue',
-            },
-            {
-              num: '7',
               type: 'exchange-hiragana' as ExerciseType,
-              name: 'Exercise 7: Conversational Exchanges (Hiragana & Audio)',
-              desc: 'Read the Hiragana question and tap audio buttons to hear native pronunciation of all choices.',
-              tag: 'Kana + Native Audio',
+              name: 'Exercise 6: Listening Dialogue (Audio-Only Prompt)',
+              desc: 'Listen to spoken Japanese dialogue (no text prompt or images); pick matching Romaji response.',
+              tag: 'Audio-Only Challenge',
             },
           ].map(mod => (
             <div
@@ -467,21 +460,12 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => setFilterType('romaji-to-hiragana')}
-              className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap ${
-                filterType === 'romaji-to-hiragana' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
-              }`}
-            >
-              Ex 2 (Romaji→Kana)
-            </button>
-            <button
-              type="button"
               onClick={() => setFilterType('word-romaji-to-hiragana')}
               className={`px-2.5 py-1.5 rounded-lg transition-all whitespace-nowrap ${
                 filterType === 'word-romaji-to-hiragana' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
               }`}
             >
-              Ex 3 (Pic→Kana)
+              Ex 2 (Word→Kana)
             </button>
             <button
               type="button"
@@ -490,7 +474,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                 filterType === 'word-hiragana-to-romaji' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
               }`}
             >
-              Ex 4 (Pic→Romaji)
+              Ex 3 (Word→Romaji)
             </button>
             <button
               type="button"
@@ -499,7 +483,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                 filterType === 'hiragana-drawing' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
               }`}
             >
-              Ex 5 (Stroke Tracing)
+              Ex 4 (Stroke Tracing)
             </button>
             <button
               type="button"
@@ -508,7 +492,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                 filterType === 'exchange-romaji' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
               }`}
             >
-              Ex 6 (Romaji Exchange)
+              Ex 5 (Dialogue Exchange)
             </button>
             <button
               type="button"
@@ -517,7 +501,7 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                 filterType === 'exchange-hiragana' ? 'bg-white text-neutral-900 shadow-xs' : 'text-neutral-600 hover:text-neutral-900'
               }`}
             >
-              Ex 7 (Kana Exchange)
+              Ex 6 (Audio Dialogue)
             </button>
           </div>
         </div>
@@ -821,34 +805,29 @@ export const ProgressDashboard: React.FC<ProgressDashboardProps> = ({
                           Ex 1: Kana→Romaji
                         </span>
                       )}
-                      {item.exerciseType === 'romaji-to-hiragana' && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-purple-50 text-purple-800 border border-purple-200">
-                          Ex 2: Romaji→Kana
-                        </span>
-                      )}
                       {item.exerciseType === 'word-romaji-to-hiragana' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-emerald-50 text-emerald-800 border border-emerald-200">
-                          Ex 3: Words (Pic→Kana)
+                          Ex 2: Words (Kana)
                         </span>
                       )}
                       {item.exerciseType === 'word-hiragana-to-romaji' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-amber-50 text-amber-800 border border-amber-200">
-                          Ex 4: Words (Pic→Romaji)
+                          Ex 3: Words (Romaji)
                         </span>
                       )}
                       {item.exerciseType === 'hiragana-drawing' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-rose-50 text-rose-800 border border-rose-200">
-                          Ex 5: Stroke Tracing
+                          Ex 4: Stroke Tracing
                         </span>
                       )}
                       {item.exerciseType === 'exchange-romaji' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-indigo-50 text-indigo-800 border border-indigo-200">
-                          Ex 6: Romaji Exchange
+                          Ex 5: Dialogue (Romaji)
                         </span>
                       )}
                       {item.exerciseType === 'exchange-hiragana' && (
                         <span className="inline-flex items-center px-2 py-0.5 rounded-md font-semibold text-[11px] bg-sky-50 text-sky-800 border border-sky-200">
-                          Ex 7: Kana Exchange
+                          Ex 6: Audio Dialogue
                         </span>
                       )}
                       {item.exerciseType === 'phrase-speaking' && (

@@ -409,7 +409,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
         <div className="flex items-center justify-between text-xs sm:text-sm mb-1 px-0.5">
           <div className="flex items-center gap-2">
             <span className="font-mono font-bold text-xs sm:text-sm px-2.5 py-0.5 rounded-lg bg-[#F8FAFF] border border-[#CBD5E1] text-[#1F2329]">
-              Card {currentIndex + 1} / 10
+              [4] Card {currentIndex + 1} / 10
             </span>
           </div>
 
@@ -449,7 +449,7 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
         </div>
         <div className="flex justify-between items-center text-[10px] sm:text-xs text-[#5F6368] mt-0.5 px-0.5 font-medium">
           <span>Progress</span>
-          <span>Trace over the 30% faded Hiragana outline</span>
+          <span>1st stroke shadow shown — draw the rest from memory</span>
         </div>
       </div>
 
@@ -487,35 +487,35 @@ export const DrawingTrainer: React.FC<DrawingTrainerProps> = ({
         <div className="flex-1 min-h-0 w-full flex items-center justify-center p-1 sm:p-2 overflow-hidden">
           <div className="relative aspect-square h-full max-h-[min(48vh,360px)] w-auto border-2 border-[#CBD5E1] rounded-2xl bg-white shadow-inner overflow-hidden touch-none select-none flex items-center justify-center">
             
-            {/* FADED HIRAGANA OUTLINE: FONT 200, 30% OPACITY */}
-            <div 
-              className="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-['Noto_Sans_JP',_sans-serif] font-black text-[140px] sm:text-[220px] leading-none text-[#1F2329]"
-              style={{ opacity: 0.30 }}
-            >
-              {currentChar.kana}
-            </div>
+            {/* 1st STROKE SHADOW ONLY: Keep just the 1st stroke shadow of the character, hide the rest */}
+            {currentChar.strokes[0] && (
+              <svg 
+                className="absolute inset-0 w-full h-full pointer-events-none select-none z-0" 
+                viewBox="0 0 100 100" 
+                preserveAspectRatio="none"
+              >
+                <path
+                  d={currentChar.strokes[0].waypoints.map((pt, i) => `${i === 0 ? 'M' : 'L'} ${pt.x} ${pt.y}`).join(' ')}
+                  fill="none"
+                  stroke="#64748B"
+                  strokeWidth="8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeDasharray="2 3"
+                  opacity="0.65"
+                />
+              </svg>
+            )}
 
-            {/* Stroke Number Start Dots & Guides (Optional Overlay) */}
-            {showStrokeNumbers && !isCharacterCompleted && (
+            {/* Stroke 1 Start Dot Hint (Only shown before stroke 1 is drawn) */}
+            {showStrokeNumbers && !isCharacterCompleted && currentStrokeIndex === 0 && currentChar.strokes[0] && (
               <div className="absolute inset-0 pointer-events-none select-none">
-                {currentChar.strokes.map((st, idx) => {
-                  if (idx < currentStrokeIndex) return null;
-                  const isCurrent = idx === currentStrokeIndex;
-
-                  return (
-                    <div
-                      key={idx}
-                      style={{ left: `${st.startPoint.x}%`, top: `${st.startPoint.y}%` }}
-                      className={`absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold shadow-xs transition-all ${
-                        isCurrent
-                          ? 'bg-[#1A73E8] text-white ring-3 ring-[#93C5FD] scale-110'
-                          : 'bg-[#1F2329] text-white opacity-60'
-                      }`}
-                    >
-                      {st.strokeNumber}
-                    </div>
-                  );
-                })}
+                <div
+                  style={{ left: `${currentChar.strokes[0].startPoint.x}%`, top: `${currentChar.strokes[0].startPoint.y}%` }}
+                  className="absolute -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-mono font-bold shadow-xs bg-[#1A73E8] text-white ring-3 ring-[#93C5FD] scale-110"
+                >
+                  1
+                </div>
               </div>
             )}
 

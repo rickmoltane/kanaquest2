@@ -302,16 +302,11 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
             handleSelectMeaningOption(currentQuestion.meaningOptions[2]);
           }
         } else {
-          // Exercises 1 & 2
-          if (e.key === '1' && currentQuestion.options[0]) {
+          // Exercise 1 (Keys 1 to 6)
+          const keyNum = parseInt(e.key, 10);
+          if (!isNaN(keyNum) && keyNum >= 1 && keyNum <= currentQuestion.options.length) {
             e.preventDefault();
-            handleSelectWrittenOption(currentQuestion.options[0]);
-          } else if (e.key === '2' && currentQuestion.options[1]) {
-            e.preventDefault();
-            handleSelectWrittenOption(currentQuestion.options[1]);
-          } else if (e.key === '3' && currentQuestion.options[2]) {
-            e.preventDefault();
-            handleSelectWrittenOption(currentQuestion.options[2]);
+            handleSelectWrittenOption(currentQuestion.options[keyNum - 1]);
           }
         }
       }
@@ -355,13 +350,11 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
   const getExerciseTitle = () => {
     switch (exerciseType) {
       case 'hiragana-to-romaji':
-        return { label: 'Exercise 1', desc: 'Hiragana → Romaji' };
-      case 'romaji-to-hiragana':
-        return { label: 'Exercise 2', desc: 'Romaji → Hiragana' };
+        return { label: 'Exercise 1', desc: 'Hiragana → Romaji (6 Family Choices)' };
       case 'word-romaji-to-hiragana':
-        return { label: 'Exercise 3', desc: 'Romaji → Hiragana + Meaning' };
+        return { label: 'Exercise 2', desc: 'Word Romaji → Hiragana + Meaning' };
       case 'word-hiragana-to-romaji':
-        return { label: 'Exercise 4', desc: 'Hiragana → Romaji + Meaning' };
+        return { label: 'Exercise 3', desc: 'Word Hiragana → Romaji + Meaning' };
       default:
         return { label: 'Exercise', desc: 'Practice' };
     }
@@ -718,14 +711,14 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
               </div>
             </div>
           ) : (
-            /* EXERCISES 1 & 2: Single-selection options (Hiragana / Romaji single char) */
+            /* EXERCISE 1: Single-selection options (6 Family-Matched Romaji Choices) */
             <div>
               <div className="text-center mb-1 sm:mb-1.5">
                 <span className="text-[11px] sm:text-xs font-bold text-[#5F6368] uppercase tracking-wider">
-                  Choose 1 of 3 options
+                  Choose 1 of {currentQuestion.options.length} options ({currentQuestion.character?.rowName || 'Same Family'})
                 </span>
               </div>
-              <div className="grid grid-cols-3 gap-2 sm:gap-3 w-full">
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-2.5 w-full">
                 {currentQuestion.options.map((option, idx) => {
                   const isSelected = selectedOption === option;
                   const isCorrectOption = option === currentQuestion.correctOption;
@@ -755,12 +748,12 @@ export const FlashcardQuiz: React.FC<FlashcardQuizProps> = ({
                       type="button"
                       disabled={isAnswered}
                       onClick={() => handleSelectWrittenOption(option)}
-                      className={`h-14 sm:h-16 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all cursor-pointer font-bold relative group ${buttonStyle}`}
+                      className={`h-11 sm:h-13 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all cursor-pointer font-bold relative group ${buttonStyle}`}
                     >
-                      <span className={`absolute top-1 left-1 sm:top-1.5 sm:left-1.5 w-5 h-5 rounded-md text-[10px] font-mono font-bold flex items-center justify-center transition-colors ${badgeStyle}`}>
+                      <span className={`absolute top-1 left-1 sm:top-1.5 sm:left-1.5 w-4.5 h-4.5 sm:w-5 sm:h-5 rounded-md text-[10px] font-mono font-bold flex items-center justify-center transition-colors ${badgeStyle}`}>
                         {idx + 1}
                       </span>
-                      <span className={`${exerciseType === 'romaji-to-hiragana' ? "font-['Noto_Sans_JP',_sans-serif] text-xl sm:text-2xl font-black" : "font-mono text-base sm:text-xl font-extrabold"}`}>
+                      <span className="font-mono text-base sm:text-lg font-black tracking-wide">
                         {option}
                       </span>
                     </button>

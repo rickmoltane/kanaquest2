@@ -31,7 +31,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<UserVocabCategoryFilter>('All');
-  const [selectedBatch, setSelectedBatch] = useState<'all' | 1 | 2 | 3 | 4 | 5>('all');
+  const [selectedBatch, setSelectedBatch] = useState<'all' | 1 | 2 | 3 | 4 | 5 | 6>('all');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   const handlePlayAudio = (item: UserVocabItem) => {
@@ -74,6 +74,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
   const batch3Count = USER_VOCAB_DB.filter(i => i.batch === 3).length;
   const batch4Count = USER_VOCAB_DB.filter(i => i.batch === 4).length;
   const batch5Count = USER_VOCAB_DB.filter(i => i.batch === 5).length;
+  const batch6Count = USER_VOCAB_DB.filter(i => i.batch === 6).length;
   const wordCount = USER_VOCAB_DB.filter(i => i.itemType === 'word').length;
   const phraseCount = USER_VOCAB_DB.filter(i => i.itemType !== 'word').length;
 
@@ -107,7 +108,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
             className="px-3 py-2 rounded-xl bg-white border border-[#CBD5E1] hover:border-[#1A73E8] text-[#1F2329] text-xs font-bold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
           >
             <Play className="w-3.5 h-3.5 text-[#1A73E8]" />
-            <span>Ex [3] Words</span>
+            <span>Ex [2] Words</span>
           </button>
           <button
             type="button"
@@ -115,7 +116,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
             className="px-3 py-2 rounded-xl bg-[#1A73E8] hover:bg-[#1557B0] text-white text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
           >
             <Play className="w-3.5 h-3.5" />
-            <span>Ex [6] Dialogue</span>
+            <span>Ex [5] Dialogue</span>
           </button>
         </div>
       </div>
@@ -134,20 +135,20 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
               </span>
             </h3>
             <p className="text-[#4B5563] leading-relaxed">
-              Every single quiz question, multiple-choice prompt, and decoy distractor in Exercises 1 through 7 is constructed exclusively from words and phrases in this database. We will add new vocabulary every few days as you provide them, ensuring you practice what you've learned without unintroduced material.
+              Every single quiz question, multiple-choice prompt, and decoy distractor in Exercises 1 through 6 is constructed exclusively from words and phrases in this database. We will add new vocabulary every few days as you provide them, ensuring you practice what you've learned without unintroduced material.
             </p>
           </div>
         </div>
       </div>
 
       {/* Database Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Total Entries</span>
+            <span>Total</span>
             <Database className="w-4 h-4 text-[#1A73E8]" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {totalItems}
           </div>
           <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
@@ -155,68 +156,81 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Batch 1 (Textbook)</span>
+            <span>Batch 1</span>
             <BookOpen className="w-4 h-4 text-amber-500" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {batch1Count}
           </div>
-          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            Essentials &amp; Greetings
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Essentials
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Batch 2 (Roles)</span>
+            <span>Batch 2</span>
             <Sparkles className="w-4 h-4 text-emerald-500" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {batch2Count}
           </div>
-          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            Jobs, Places, Ages
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Roles &amp; Ages
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Batch 3 (Objects)</span>
+            <span>Batch 3</span>
             <Layers className="w-4 h-4 text-blue-500" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {batch3Count}
           </div>
-          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            Everyday Objects &amp; Eric
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Objects &amp; Eric
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Batch 4 (Time/Class)</span>
+            <span>Batch 4</span>
             <Sparkles className="w-4 h-4 text-indigo-500" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {batch4Count}
           </div>
-          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            Days, Hours, Kore/Sore
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Time &amp; Days
           </div>
         </div>
 
-        <div className="p-3.5 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
-            <span>Batch 5 (Family &amp; Places)</span>
+            <span>Batch 5</span>
             <Sparkles className="w-4 h-4 text-rose-500" />
           </div>
-          <div className="mt-2 text-2xl font-black text-[#1F2329] font-mono">
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
             {batch5Count}
           </div>
-          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            Family, Facilities, Animals
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Family &amp; Places
+          </div>
+        </div>
+
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
+            <span>Batch 6</span>
+            <Sparkles className="w-4 h-4 text-teal-600" />
+          </div>
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
+            {batch6Count}
+          </div>
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Food &amp; Dining
           </div>
         </div>
       </div>
@@ -228,13 +242,28 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs text-amber-950">
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Place + に + 住んでいます:</span> Expresses where someone lives (東京に住んでいます = I live in Tokyo, バンコクに住んでいます = I live in Bangkok).
+            <span className="font-bold text-amber-900">Noun + を + 食べます／飲みます:</span> を (o) marks what you consume (パンを食べます = eat bread; 水を飲みます = drink water).
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Humble vs Polite Family:</span> 父 (chichi) &amp; 母 (haha) for your family; お父さん (otōsan) &amp; お母さん (okāsan) for someone else's.
+            <span className="font-bold text-amber-900">お茶 (ocha) vs 紅茶 (kōcha):</span> お茶 = green tea / general tea; 紅茶 = black tea specifically.
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">誰 (dare) vs どなた (donata):</span> どなた is polite. Similarly, この人 (kono hito) vs あの方 (ano kata - polite).
+            <span className="font-bold text-amber-900">Likes &amp; Dislikes:</span> 肉が好きです (I like meat - general); 魚は好きじゃありません (topic contrast for negatives).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Frequency + Negatives:</span> いつも (always) &amp; よく (often) take positive; あまり (not much) &amp; 全然 (not at all) always take negative verbs!
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">～ましょう (Let's...):</span> 行きましょう (Let's go), 食べましょう (Let's eat), 飲みましょう (Let's drink).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Polite Offers:</span> コーヒー、いかがですか？ &rarr; はい、お願いします (Yes, please) or いいえ、結構です (No, thank you).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Place + に + 住んでいます:</span> 東京に住んでいます (I live in Tokyo), バンコクに住んでいます (I live in Bangkok).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Humble vs Polite Family:</span> 父 (chichi) &amp; 母 (haha) for your family; お父さん &amp; お母さん for someone else's.
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
             <span className="font-bold text-amber-900">四人（よにん, yonin）:</span> Always pronounced <span className="font-mono font-bold">yonin</span>, never よんにん.
@@ -246,13 +275,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
             <span className="font-bold text-amber-900">これ・それ・あれ:</span> これ = near speaker; それ = near listener; あれ = away from both.
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">～てください (-te kudasai):</span> "Please do..." (聞いてください = listen, 書いてください = write, 読んでください = read).
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">X はどうですか:</span> "How is X?" or "What do you think of X?" (最近どうですか, 日本語はどうですか).
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Composition:</span> {wordCount} words &bull; {phraseCount} phrases across all 5 batches.
+            <span className="font-bold text-amber-900">Curriculum Size:</span> {wordCount} words &bull; {phraseCount} phrases across all 6 batches ({totalItems} total).
           </div>
         </div>
       </div>
@@ -348,6 +371,17 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
               }`}
             >
               Batch 5 ({batch5Count})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedBatch(6)}
+              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                selectedBatch === 6 
+                  ? 'bg-white text-[#1F2329] shadow-xs' 
+                  : 'text-[#5F6368] hover:text-[#1F2329]'
+              }`}
+            >
+              Batch 6 ({batch6Count})
             </button>
           </div>
         </div>

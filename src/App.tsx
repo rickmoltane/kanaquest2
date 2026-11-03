@@ -52,18 +52,16 @@ function MainContent() {
     setQuizSessionId(Date.now());
     if (type === 'hiragana-to-romaji') {
       setActiveTab('exercise-1');
-    } else if (type === 'romaji-to-hiragana') {
-      setActiveTab('exercise-2');
     } else if (type === 'word-romaji-to-hiragana') {
-      setActiveTab('exercise-3');
+      setActiveTab('exercise-2');
     } else if (type === 'word-hiragana-to-romaji') {
-      setActiveTab('exercise-4');
+      setActiveTab('exercise-3');
     } else if (type === 'hiragana-drawing') {
-      setActiveTab('exercise-5');
+      setActiveTab('exercise-4');
     } else if (type === 'exchange-romaji') {
-      setActiveTab('exercise-6');
+      setActiveTab('exercise-5');
     } else if (type === 'exchange-hiragana') {
-      setActiveTab('exercise-7');
+      setActiveTab('exercise-6');
     }
   };
 
@@ -91,8 +89,7 @@ function MainContent() {
     'exercise-3', 
     'exercise-4', 
     'exercise-5', 
-    'exercise-6', 
-    'exercise-7',
+    'exercise-6',
   ].includes(activeTab);
 
   return (
@@ -108,21 +105,18 @@ function MainContent() {
             setCurrentQuizType('hiragana-to-romaji');
             setActiveResult(null);
           } else if (tab === 'exercise-2') {
-            setCurrentQuizType('romaji-to-hiragana');
-            setActiveResult(null);
-          } else if (tab === 'exercise-3') {
             setCurrentQuizType('word-romaji-to-hiragana');
             setActiveResult(null);
-          } else if (tab === 'exercise-4') {
+          } else if (tab === 'exercise-3') {
             setCurrentQuizType('word-hiragana-to-romaji');
             setActiveResult(null);
-          } else if (tab === 'exercise-5') {
+          } else if (tab === 'exercise-4') {
             setCurrentQuizType('hiragana-drawing');
             setActiveResult(null);
-          } else if (tab === 'exercise-6') {
+          } else if (tab === 'exercise-5') {
             setCurrentQuizType('exchange-romaji');
             setActiveResult(null);
-          } else if (tab === 'exercise-7') {
+          } else if (tab === 'exercise-6') {
             setCurrentQuizType('exchange-hiragana');
             setActiveResult(null);
           }
@@ -160,7 +154,7 @@ function MainContent() {
         ) : activeTab === 'exercise-2' ? (
           <FlashcardQuiz
             key={`ex2_${quizSessionId}`}
-            exerciseType="romaji-to-hiragana"
+            exerciseType="word-romaji-to-hiragana"
             soundEnabled={soundEnabled}
             onComplete={handleQuizComplete}
             onCancel={() => setActiveTab('dashboard')}
@@ -168,22 +162,22 @@ function MainContent() {
         ) : activeTab === 'exercise-3' ? (
           <FlashcardQuiz
             key={`ex3_${quizSessionId}`}
-            exerciseType="word-romaji-to-hiragana"
-            soundEnabled={soundEnabled}
-            onComplete={handleQuizComplete}
-            onCancel={() => setActiveTab('dashboard')}
-          />
-        ) : activeTab === 'exercise-4' ? (
-          <FlashcardQuiz
-            key={`ex4_${quizSessionId}`}
             exerciseType="word-hiragana-to-romaji"
             soundEnabled={soundEnabled}
             onComplete={handleQuizComplete}
             onCancel={() => setActiveTab('dashboard')}
           />
-        ) : activeTab === 'exercise-5' ? (
+        ) : activeTab === 'exercise-4' ? (
           <DrawingTrainer
+            key={`ex4_${currentQuizType}`}
+            soundEnabled={soundEnabled}
+            onComplete={handleQuizComplete}
+            onCancel={() => setActiveTab('dashboard')}
+          />
+        ) : activeTab === 'exercise-5' ? (
+          <ExchangeQuiz
             key={`ex5_${currentQuizType}`}
+            exerciseType="exchange-romaji"
             soundEnabled={soundEnabled}
             onComplete={handleQuizComplete}
             onCancel={() => setActiveTab('dashboard')}
@@ -191,14 +185,6 @@ function MainContent() {
         ) : activeTab === 'exercise-6' ? (
           <ExchangeQuiz
             key={`ex6_${currentQuizType}`}
-            exerciseType="exchange-romaji"
-            soundEnabled={soundEnabled}
-            onComplete={handleQuizComplete}
-            onCancel={() => setActiveTab('dashboard')}
-          />
-        ) : activeTab === 'exercise-7' ? (
-          <ExchangeQuiz
-            key={`ex7_${currentQuizType}`}
             exerciseType="exchange-hiragana"
             soundEnabled={soundEnabled}
             onComplete={handleQuizComplete}
