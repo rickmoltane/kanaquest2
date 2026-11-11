@@ -14,7 +14,10 @@ export interface ExchangeItem {
     | 'demonstratives'
     | 'classroom'
     | 'food-drinks'
-    | 'dining-preferences';
+    | 'dining-preferences'
+    | 'daily-routine'
+    | 'places-transit'
+    | 'time-schedules';
   categoryLabel: string;
   situationTitle: string;
   englishMeaning: string;
@@ -2969,6 +2972,530 @@ export const EXCHANGE_DATA: ExchangeItem[] = [
     questionDistractors: [
       { romaji: 'O-cha ga yoku nomimasu ka?', hiragana: 'おちゃが よくのみますか？', english: 'Particle error: "ga" instead of object marker "o"' },
       { romaji: 'Yoku nomimasu ka o-cha o?', hiragana: 'よくのみますか おちゃを？', english: 'Inverted inquiry order' },
+    ],
+  },
+
+  // ==========================================
+  // BATCH 7: Daily Routines, Food, Places, Transit & Time
+  // ==========================================
+
+  // 1. Waking up at 7 AM
+  {
+    id: 'exch-b7-wake-up',
+    category: 'daily-routine',
+    categoryLabel: 'Daily Routine',
+    situationTitle: 'Morning Routine & Wake-up Time',
+    englishMeaning: 'What time do you wake up every morning?',
+    promptSpeaker: 'Roommate',
+    semanticPattern: 'routine-wake-up',
+    subjectEntity: 'friend',
+    spriteId: '01',
+    promptRomaji: 'Maiasa, nanji ni okimasu ka?',
+    promptHiragana: 'まいあさ、なんじにおきますか？',
+    correctRomaji: 'Maiasa, shichiji ni okimasu.',
+    correctHiragana: 'まいあさ、しちじにおきます。',
+    correctEnglish: 'I wake up at 7 every morning.',
+    distractors: [
+      { romaji: 'Maiasa, shichiji de okimasu.', hiragana: 'まいあさ、しちじでおきます。', english: 'Particle error: "de" instead of "ni" for specific time' },
+      { romaji: 'Maiasa, okimasu shichiji ni.', hiragana: 'まいあさ、おきますしちじに。', english: 'Incorrect verb placement' },
+    ],
+    questionDistractors: [
+      { romaji: 'Maiasa, nanji o okimasu ka?', hiragana: 'まいあさ、なんじをおきますか？', english: 'Particle error: "o" instead of time marker "ni"' },
+      { romaji: 'Nanji ni okimasu ka maiasa?', hiragana: 'なんじにおきますか まいあさ？', english: 'Inverted time modifier' },
+    ],
+  },
+
+  // 2. Bedtime at 11 PM
+  {
+    id: 'exch-b7-bedtime',
+    category: 'daily-routine',
+    categoryLabel: 'Daily Routine',
+    situationTitle: 'Night Routine & Bedtime',
+    englishMeaning: 'What time do you go to bed at night?',
+    promptSpeaker: 'Friend',
+    semanticPattern: 'routine-bedtime',
+    subjectEntity: 'friend',
+    spriteId: '02',
+    promptRomaji: 'Yoru, nanji ni nemasu ka?',
+    promptHiragana: 'よる、なんじにねますか？',
+    correctRomaji: 'Yoru, jūichiji ni nemasu.',
+    correctHiragana: 'よる、じゅういちじにねます。',
+    correctEnglish: 'I go to bed at 11 at night.',
+    distractors: [
+      { romaji: 'Yoru, jūichiji o nemasu.', hiragana: 'よる、じゅういちじをねます。', english: 'Particle error: "o" instead of time marker "ni"' },
+      { romaji: 'Yoru, jūichiji ni nemashita.', hiragana: 'よる、じゅういちじにねました。', english: 'Tense mismatch: past "-mashita" instead of daily routine' },
+    ],
+    questionDistractors: [
+      { romaji: 'Yoru, nanji o nemasu ka?', hiragana: 'よる、なんじをおきますか？', english: 'Particle error: "o" instead of "ni"' },
+      { romaji: 'Nanji ni nemasu ka yoru?', hiragana: 'なんじにねますか よる？', english: 'Inverted modifier' },
+    ],
+  },
+
+  // 3. Studying Japanese every day
+  {
+    id: 'exch-b7-study-nihongo',
+    category: 'daily-routine',
+    categoryLabel: 'Study Routine',
+    situationTitle: 'Daily Japanese Study',
+    englishMeaning: 'What do you study every day?',
+    promptSpeaker: 'Language Partner',
+    semanticPattern: 'routine-study',
+    subjectEntity: 'colleague',
+    spriteId: '04',
+    promptRomaji: 'Mainichi, nani o benkyō shimasu ka?',
+    promptHiragana: 'まいにち、なにをべんきょうしますか？',
+    correctRomaji: 'Mainichi, nihongo o benkyō shimasu.',
+    correctHiragana: 'まいにち、にほんごをべんきょうします。',
+    correctEnglish: 'I study Japanese every day.',
+    distractors: [
+      { romaji: 'Mainichi, nihongo ni benkyō shimasu.', hiragana: 'まいにち、にほんごにべんきょうします。', english: 'Particle error: "ni" instead of direct object "o"' },
+      { romaji: 'Mainichi, nihongo o benkyō shimashita.', hiragana: 'まいにち、にほんごをべんきょうしました。', english: 'Tense mismatch: past tense for daily habit' },
+    ],
+    questionDistractors: [
+      { romaji: 'Mainichi, nani ga benkyō shimasu ka?', hiragana: 'まいにち、なにがべんきょうしますか？', english: 'Particle error: "ga" instead of object marker "o"' },
+      { romaji: 'Benkyō shimasu ka mainichi?', hiragana: 'べんきょうしますか まいにち？', english: 'Inverted question order' },
+    ],
+  },
+
+  // 4. Working yesterday (past affirmative -mashita)
+  {
+    id: 'exch-b7-work-yesterday',
+    category: 'daily-routine',
+    categoryLabel: 'Past Activity',
+    situationTitle: 'Asking About Yesterday',
+    englishMeaning: 'What did you do yesterday?',
+    promptSpeaker: 'Coworker',
+    semanticPattern: 'past-work',
+    subjectEntity: 'colleague',
+    spriteId: '06',
+    promptRomaji: 'Kinō, nani o shimashita ka?',
+    promptHiragana: 'きのう、なにをしましたか？',
+    correctRomaji: 'Kinō, shigoto o shimashita.',
+    correctHiragana: 'きのう、しごとをしました。',
+    correctEnglish: 'I worked yesterday.',
+    distractors: [
+      { romaji: 'Kinō, shigoto o shimasu.', hiragana: 'きのう、しごとをします。', english: 'Tense mismatch: present tense "shimasu" for yesterday' },
+      { romaji: 'Kinō, shigoto ni shimashita.', hiragana: 'きのう、しごとにしました。', english: 'Particle error: "ni" instead of object marker "o"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kinō, nani o shimasu ka?', hiragana: 'きのう、なにをしますか？', english: 'Tense error: present tense question for "kinō"' },
+      { romaji: 'Nani o shimashita ka kinō?', hiragana: 'なにをしましたか きのう？', english: 'Inverted time adverb' },
+    ],
+  },
+
+  // 5. Tomorrow is a day off
+  {
+    id: 'exch-b7-day-off-tomorrow',
+    category: 'time-schedules',
+    categoryLabel: 'Work Schedule',
+    situationTitle: 'Asking if Working Tomorrow',
+    englishMeaning: 'Do you work tomorrow?',
+    promptSpeaker: 'Coworker',
+    semanticPattern: 'schedule-day-off',
+    subjectEntity: 'colleague',
+    spriteId: '08',
+    promptRomaji: 'Ashita wa shigoto desu ka?',
+    promptHiragana: 'あしたはしごとですか？',
+    correctRomaji: 'Iie, ashita wa yasumi desu.',
+    correctHiragana: 'いいえ、あしたはやすみです。',
+    correctEnglish: 'No, tomorrow is a day off.',
+    distractors: [
+      { romaji: 'Hai, ashita wa yasumi desu.', hiragana: 'はい、あしたはやすみです。', english: 'Affirmative "hai" conflicting with day off negation' },
+      { romaji: 'Iie, ashita wa shigoto desu.', hiragana: 'いいえ、あしたはしごとです。', english: 'Negative "iie" conflicting with work affirmation' },
+    ],
+    questionDistractors: [
+      { romaji: 'Ashita o shigoto desu ka?', hiragana: 'あしたをしごとですか？', english: 'Particle error: "o" instead of topic marker "wa"' },
+      { romaji: 'Shigoto desu ka ashita wa?', hiragana: 'しごとですか あしたは？', english: 'Inverted inquiry predicate' },
+    ],
+  },
+
+  // 6. Breakfast inquiry (past tense)
+  {
+    id: 'exch-b7-breakfast',
+    category: 'food-drinks',
+    categoryLabel: 'Meals & Food',
+    situationTitle: 'Morning Breakfast Inquiry',
+    englishMeaning: 'Did you eat breakfast?',
+    promptSpeaker: 'Host',
+    semanticPattern: 'food-breakfast',
+    subjectEntity: 'mother',
+    spriteId: '09',
+    promptRomaji: 'Asagohan o tabemashita ka?',
+    promptHiragana: 'あさごはんをたべましたか？',
+    correctRomaji: 'Hai, asagohan o tabemashita.',
+    correctHiragana: 'はい、あさごはんをたべました。',
+    correctEnglish: 'Yes, I ate breakfast.',
+    distractors: [
+      { romaji: 'Hai, asagohan o tabemasen deshita.', hiragana: 'はい、あさごはんをたべませんでした。', english: 'Conflicting "hai" with past negative "-masen deshita"' },
+      { romaji: 'Iie, asagohan o tabemashita.', hiragana: 'いいえ、あさごはんをたべました。', english: 'Conflicting "iie" with past affirmative "-mashita"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Asagohan ni tabemashita ka?', hiragana: 'あさごはんにたべましたか？', english: 'Particle error: "ni" instead of object marker "o"' },
+      { romaji: 'Tabemashita ka asagohan o?', hiragana: 'たべましたか あさごはんを？', english: 'Inverted verb and object' },
+    ],
+  },
+
+  // 7. Coffee drink habit
+  {
+    id: 'exch-b7-coffee',
+    category: 'food-drinks',
+    categoryLabel: 'Beverages',
+    situationTitle: 'Offering Coffee',
+    englishMeaning: 'Do you drink coffee?',
+    promptSpeaker: 'Cafe Host',
+    semanticPattern: 'drink-coffee',
+    subjectEntity: 'colleague',
+    spriteId: '10',
+    promptRomaji: 'Kōhī o nomimasu ka?',
+    promptHiragana: 'こーひーをのみますか？',
+    correctRomaji: 'Hai, kōhī o nomimasu.',
+    correctHiragana: 'はい、こーひーをのみます。',
+    correctEnglish: 'Yes, I drink coffee.',
+    distractors: [
+      { romaji: 'Hai, kōhī o nomimasen.', hiragana: 'はい、こーひーをのみません。', english: 'Conflicting "hai" with negative verb "nomimasen"' },
+      { romaji: 'Iie, kōhī o nomimasu.', hiragana: 'いいえ、こーひーをのみます。', english: 'Conflicting "iie" with affirmative verb "nomimasu"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kōhī ni nomimasu ka?', hiragana: 'こーひーにのみますか？', english: 'Particle error: "ni" instead of direct object "o"' },
+      { romaji: 'Nomimasu ka kōhī o?', hiragana: 'のみますか こーひーを？', english: 'Inverted drink inquiry' },
+    ],
+  },
+
+  // 8. Liking meat
+  {
+    id: 'exch-b7-meat-like',
+    category: 'dining-preferences',
+    categoryLabel: 'Preferences',
+    situationTitle: 'Food Preference Inquiry',
+    englishMeaning: 'Do you like meat?',
+    promptSpeaker: 'Dining Friend',
+    semanticPattern: 'pref-meat',
+    subjectEntity: 'friend',
+    spriteId: '11',
+    promptRomaji: 'Niku ga suki desu ka?',
+    promptHiragana: 'にくがすきですか？',
+    correctRomaji: 'Hai, niku ga suki desu.',
+    correctHiragana: 'はい、にくがすきです。',
+    correctEnglish: 'Yes, I like meat.',
+    distractors: [
+      { romaji: 'Hai, niku ga suki ja nai desu.', hiragana: 'はい、にくがすきじゃないです。', english: 'Conflicting "hai" with negative "suki ja nai desu"' },
+      { romaji: 'Iie, niku ga suki desu.', hiragana: 'いいえ、にくがすきです。', english: 'Conflicting "iie" with affirmative "suki desu"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Niku o suki desu ka?', hiragana: 'にくをすきですか？', english: 'Particle error: "o" instead of adjective subject marker "ga"' },
+      { romaji: 'Suki desu ka niku ga?', hiragana: 'すきですか にくが？', english: 'Inverted predicate' },
+    ],
+  },
+
+  // 9. Fish frequency (negative habit with amari)
+  {
+    id: 'exch-b7-fish-habit',
+    category: 'dining-preferences',
+    categoryLabel: 'Dietary Habits',
+    situationTitle: 'Fish Consumption Frequency',
+    englishMeaning: 'Do you often eat fish?',
+    promptSpeaker: 'Chef',
+    semanticPattern: 'habit-fish',
+    subjectEntity: 'friend',
+    spriteId: '12',
+    promptRomaji: 'Sakana o yoku tabemasu ka?',
+    promptHiragana: 'さかなをよくたべますか？',
+    correctRomaji: 'Iie, sakana wa amari tabemasen.',
+    correctHiragana: 'いいえ、さかなはあまりたべません。',
+    correctEnglish: "No, I don't eat fish very often.",
+    distractors: [
+      { romaji: 'Iie, sakana wa amari tabemasu.', hiragana: 'いいえ、さかなはあまりたべます。', english: 'Grammar error: "amari" paired with affirmative verb' },
+      { romaji: 'Hai, sakana wa amari tabemasen.', hiragana: 'はい、さかなはあまりたべません。', english: 'Conflicting "hai" with negative frequency "amari tabemasen"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Sakana ga yoku tabemasu ka?', hiragana: 'さかながよくたべますか？', english: 'Particle error: "ga" instead of object marker "o"' },
+      { romaji: 'Yoku tabemasu ka sakana o?', hiragana: 'よくたべますか さかなを？', english: 'Inverted frequency phrase' },
+    ],
+  },
+
+  // 10. Commenting on delicious food
+  {
+    id: 'exch-b7-dish-taste',
+    category: 'dining-preferences',
+    categoryLabel: 'Taste & Opinions',
+    situationTitle: 'Evaluating a Dish',
+    englishMeaning: 'How is this dish?',
+    promptSpeaker: 'Friend at dinner',
+    semanticPattern: 'taste-dish-opinion',
+    subjectEntity: 'colleague',
+    spriteId: '13',
+    promptRomaji: 'Kono ryōri wa dō desu ka?',
+    promptHiragana: 'このりょうりはどうですか？',
+    correctRomaji: 'Kono ryōri wa oishii desu.',
+    correctHiragana: 'このりょうりはおいしいです。',
+    correctEnglish: 'This food is delicious.',
+    distractors: [
+      { romaji: 'Kono ryōri o oishii desu.', hiragana: 'このりょうりをおいしいです。', english: 'Particle error: "o" instead of topic marker "wa"' },
+      { romaji: 'Oishii desu kono ryōri wa.', hiragana: 'おいしいですこのりょうりは。', english: 'Inverted sentence structure' },
+    ],
+    questionDistractors: [
+      { romaji: 'Kono ryōri o dō desu ka?', hiragana: 'このりょうりをどうですか？', english: 'Particle error: "o" instead of "wa"' },
+      { romaji: 'Dō desu ka kono ryōri wa?', hiragana: 'どうですか このりょうりは？', english: 'Inverted interrogative predicate' },
+    ],
+  },
+
+  // 11. Bank location inquiry
+  {
+    id: 'exch-b7-bank-location',
+    category: 'places-transit',
+    categoryLabel: 'Directions & Places',
+    situationTitle: 'Asking for the Bank',
+    englishMeaning: 'Where is the bank?',
+    promptSpeaker: 'Pedestrian',
+    semanticPattern: 'location-bank',
+    subjectEntity: 'man',
+    spriteId: '14',
+    promptRomaji: 'Sumimasen, ginkō wa doko desu ka?',
+    promptHiragana: 'すみません、ぎんこうはどこですか？',
+    correctRomaji: 'Ginkō wa asoko desu.',
+    correctHiragana: 'ぎんこうはあそこです。',
+    correctEnglish: 'The bank is over there.',
+    distractors: [
+      { romaji: 'Ginkō o asoko desu.', hiragana: 'ぎんこうをあそこです。', english: 'Particle error: "o" instead of topic marker "wa"' },
+      { romaji: 'Asoko wa ginkō desu ka?', hiragana: 'あそこはぎんこうですか？', english: 'Echo question instead of answering location' },
+    ],
+    questionDistractors: [
+      { romaji: 'Sumimasen, ginkō o doko desu ka?', hiragana: 'すみません、ぎんこうをどこですか？', english: 'Particle error: "o" instead of "wa"' },
+      { romaji: 'Doko desu ka ginkō wa?', hiragana: 'どこですか ぎんこうは？', english: 'Inverted location inquiry' },
+    ],
+  },
+
+  // 12. Destination: Going to the station
+  {
+    id: 'exch-b7-going-station',
+    category: 'places-transit',
+    categoryLabel: 'Directions & Places',
+    situationTitle: 'Destination Inquiry',
+    englishMeaning: 'Where are you going?',
+    promptSpeaker: 'Acquaintance on the street',
+    semanticPattern: 'transit-destination',
+    subjectEntity: 'colleague',
+    spriteId: '15',
+    promptRomaji: 'Doko ni ikimasu ka?',
+    promptHiragana: 'どこにいきますか？',
+    correctRomaji: 'Eki ni ikimasu.',
+    correctHiragana: 'えきにいきます。',
+    correctEnglish: 'I am going to the station.',
+    distractors: [
+      { romaji: 'Eki o ikimasu.', hiragana: 'えきをいきます。', english: 'Particle error: "o" instead of destination marker "ni"' },
+      { romaji: 'Ikimasu eki ni.', hiragana: 'いきますえきに。', english: 'Inverted verb and destination' },
+    ],
+    questionDistractors: [
+      { romaji: 'Doko o ikimasu ka?', hiragana: 'どこをいきますか？', english: 'Particle error: "o" instead of destination marker "ni"' },
+      { romaji: 'Ikimasu ka doko ni?', hiragana: 'いきますか どこに？', english: 'Inverted question order' },
+    ],
+  },
+
+  // 13. Going by subway (means of transit: place + de)
+  {
+    id: 'exch-b7-go-subway',
+    category: 'places-transit',
+    categoryLabel: 'Transit & Travel',
+    situationTitle: 'Method of Transportation',
+    englishMeaning: 'Do you go by subway?',
+    promptSpeaker: 'Traveler',
+    semanticPattern: 'transit-subway',
+    subjectEntity: 'friend',
+    spriteId: '16',
+    promptRomaji: 'Chikatetsu de ikimasu ka?',
+    promptHiragana: 'ちかてつでいきますか？',
+    correctRomaji: 'Hai, chikatetsu de ikimasu.',
+    correctHiragana: 'はい、ちかてつでいきます。',
+    correctEnglish: 'Yes, I go by subway.',
+    distractors: [
+      { romaji: 'Hai, chikatetsu ni ikimasu.', hiragana: 'はい、ちかてつにいきます。', english: 'Particle error: "ni" instead of means of transit "de"' },
+      { romaji: 'Iie, chikatetsu de ikimasu.', hiragana: 'いいえ、ちかてつでいきます。', english: 'Conflicting "iie" with affirmative agreement' },
+    ],
+    questionDistractors: [
+      { romaji: 'Chikatetsu o ikimasu ka?', hiragana: 'ちかてつをいきますか？', english: 'Particle error: "o" instead of transit "de"' },
+      { romaji: 'Ikimasu ka chikatetsu de?', hiragana: 'いきますか ちかてつで？', english: 'Inverted transit inquiry' },
+    ],
+  },
+
+  // 14. Watching a movie at the cinema (place + de + action)
+  {
+    id: 'exch-b7-cinema-movie',
+    category: 'places-transit',
+    categoryLabel: 'Activities & Places',
+    situationTitle: 'Cinema Activities',
+    englishMeaning: 'What do you do at the cinema?',
+    promptSpeaker: 'Friend',
+    semanticPattern: 'activity-cinema',
+    subjectEntity: 'friend',
+    spriteId: '01',
+    promptRomaji: 'Eigakan de nani o shimasu ka?',
+    promptHiragana: 'えいがかんでなにをしますか？',
+    correctRomaji: 'Eigakan de eiga o mimasu.',
+    correctHiragana: 'えいがかんでえいがをみます。',
+    correctEnglish: 'I watch a movie at the cinema.',
+    distractors: [
+      { romaji: 'Eigakan ni eiga o mimasu.', hiragana: 'えいかんにえいがをみます。', english: 'Particle error: "ni" instead of action location "de"' },
+      { romaji: 'Eigakan de eiga ni mimasu.', hiragana: 'えいがかんでえいがにみます。', english: 'Particle error: "ni" instead of direct object "o"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Eigakan ni nani o shimasu ka?', hiragana: 'えいかんに なにをしますか？', english: 'Particle error: "ni" instead of action location "de"' },
+      { romaji: 'Nani o shimasu ka eigakan de?', hiragana: 'なにをしますか えいがかんで？', english: 'Inverted location clause' },
+    ],
+  },
+
+  // 15. Hospital location inquiry
+  {
+    id: 'exch-b7-hospital-location',
+    category: 'places-transit',
+    categoryLabel: 'Directions & Places',
+    situationTitle: 'Asking for the Hospital',
+    englishMeaning: 'Where is the hospital?',
+    promptSpeaker: 'Visitor',
+    semanticPattern: 'location-hospital',
+    subjectEntity: 'woman',
+    spriteId: '02',
+    promptRomaji: 'Sumimasen, byōin wa doko desu ka?',
+    promptHiragana: 'すみません、びょういんはどこですか？',
+    correctRomaji: 'Byōin wa eki no chikaku desu.',
+    correctHiragana: 'びょういんはえきのちかくです。',
+    correctEnglish: 'The hospital is near the station.',
+    distractors: [
+      { romaji: 'Byōin de eki no chikaku desu.', hiragana: 'びょういんでえきのちかくです。', english: 'Particle error: "de" instead of topic marker "wa"' },
+      { romaji: 'Eki no chikaku wa byōin desu ka?', hiragana: 'えきのちかくはびょういんですか？', english: 'Echo question instead of answering' },
+    ],
+    questionDistractors: [
+      { romaji: 'Sumimasen, byōin o doko desu ka?', hiragana: 'すみません、びょういんをどこですか？', english: 'Particle error: "o" instead of "wa"' },
+      { romaji: 'Doko desu ka byōin wa?', hiragana: 'どこですか びょういんは？', english: 'Inverted inquiry' },
+    ],
+  },
+
+  // 16. Asking if having time this week
+  {
+    id: 'exch-b7-time-this-week',
+    category: 'time-schedules',
+    categoryLabel: 'Time & Availability',
+    situationTitle: 'Checking Availability',
+    englishMeaning: 'Do you have time this week?',
+    promptSpeaker: 'Colleague',
+    semanticPattern: 'schedule-availability',
+    subjectEntity: 'colleague',
+    spriteId: '03',
+    promptRomaji: 'Konshū, jikan ga arimasu ka?',
+    promptHiragana: 'こんしゅう、じかんがありますか？',
+    correctRomaji: 'Hai, jikan ga arimasu.',
+    correctHiragana: 'はい、じかんがあります。',
+    correctEnglish: 'Yes, I have time.',
+    distractors: [
+      { romaji: 'Hai, jikan ga arimasen.', hiragana: 'はい、じかんがありません。', english: 'Conflicting "hai" with negative existence "arimasen"' },
+      { romaji: 'Iie, jikan ga arimasu.', hiragana: 'いいえ、じかんがあります。', english: 'Conflicting "iie" with affirmative existence "arimasu"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Konshū, jikan o arimasu ka?', hiragana: 'こんしゅう、じかんをありますか？', english: 'Particle error: "o" instead of existence marker "ga"' },
+      { romaji: 'Jikan ga arimasu ka konshū?', hiragana: 'じかんがありますか こんしゅう？', english: 'Inverted time context' },
+    ],
+  },
+
+  // 17. Not having money (negative existence: arimasen)
+  {
+    id: 'exch-b7-no-money',
+    category: 'daily-routine',
+    categoryLabel: 'Daily Conversation',
+    situationTitle: 'Asking About Money',
+    englishMeaning: 'Do you have money?',
+    promptSpeaker: 'Friend at shop',
+    semanticPattern: 'finance-money',
+    subjectEntity: 'friend',
+    spriteId: '04',
+    promptRomaji: 'Okane ga arimasu ka?',
+    promptHiragana: 'おかねがありますか？',
+    correctRomaji: 'Iie, okane ga arimasen.',
+    correctHiragana: 'いいえ、おかねがありません。',
+    correctEnglish: "No, I don't have any money.",
+    distractors: [
+      { romaji: 'Iie, okane ga arimasu.', hiragana: 'いいえ、おかねがあります。', english: 'Conflicting "iie" with affirmative "arimasu"' },
+      { romaji: 'Hai, okane ga arimasen.', hiragana: 'はい、おかねがありません。', english: 'Conflicting "hai" with negative "arimasen"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Okane o arimasu ka?', hiragana: 'おかねをありますか？', english: 'Particle error: "o" instead of "ga" for existence' },
+      { romaji: 'Arimasu ka okane ga?', hiragana: 'ありますか おかねが？', english: 'Inverted question order' },
+    ],
+  },
+
+  // 18. Hospital hours: kara ... made
+  {
+    id: 'exch-b7-hospital-hours',
+    category: 'time-schedules',
+    categoryLabel: 'Operating Hours',
+    situationTitle: 'Asking Hospital Hours',
+    englishMeaning: "What are the hospital's opening hours?",
+    promptSpeaker: 'Patient',
+    semanticPattern: 'hours-range',
+    subjectEntity: 'colleague',
+    spriteId: '05',
+    promptRomaji: 'Byōin wa nanji kara nanji made desu ka?',
+    promptHiragana: 'びょういんはなんじからなんじまでですか？',
+    correctRomaji: 'Kuji kara goji made desu.',
+    correctHiragana: 'くじからごじまでです。',
+    correctEnglish: "It is from 9 o'clock until 5 o'clock.",
+    distractors: [
+      { romaji: 'Kuji made goji kara desu.', hiragana: 'くじまでごじからです。', english: 'Inverted time range: "until 9 from 5"' },
+      { romaji: 'Kuji ni goji ni desu.', hiragana: 'くじにごじにです。', english: 'Missing span particles "kara" and "made"' },
+    ],
+    questionDistractors: [
+      { romaji: 'Byōin o nanji kara nanji made desu ka?', hiragana: 'びょういんをなんじからなんじまでですか？', english: 'Particle error: "o" instead of topic marker "wa"' },
+      { romaji: 'Nanji kara nanji made desu ka byōin wa?', hiragana: 'なんじからなんじまでですか びょういんは？', english: 'Inverted topic inquiry' },
+    ],
+  },
+
+  // 19. Day off day of the week
+  {
+    id: 'exch-b7-day-off-day',
+    category: 'time-schedules',
+    categoryLabel: 'Days & Dates',
+    situationTitle: 'Asking Which Day Off',
+    englishMeaning: 'What day is your day off?',
+    promptSpeaker: 'Coworker',
+    semanticPattern: 'schedule-day-off-dow',
+    subjectEntity: 'colleague',
+    spriteId: '06',
+    promptRomaji: "Yasumi wa nan'yōbi desu ka?",
+    promptHiragana: 'やすみはなんようびですか？',
+    correctRomaji: 'Yasumi wa nichiyōbi desu.',
+    correctHiragana: 'やすみはにちようびです。',
+    correctEnglish: 'My day off is Sunday.',
+    distractors: [
+      { romaji: 'Yasumi o nichiyōbi desu.', hiragana: 'やすみをにちようびです。', english: 'Particle error: "o" instead of topic marker "wa"' },
+      { romaji: 'Nichiyōbi wa yasumi desu ka?', hiragana: 'にちようびはやすみですか？', english: 'Echo question instead of answering' },
+    ],
+    questionDistractors: [
+      { romaji: "Yasumi o nan'yōbi desu ka?", hiragana: 'やすみをなんようびですか？', english: 'Particle error: "o" instead of "wa"' },
+      { romaji: "Nan'yōbi desu ka yasumi wa?", hiragana: 'なんようびですか やすみは？', english: 'Inverted predicate' },
+    ],
+  },
+
+  // 20. Joining someone to go (mo ikimasu)
+  {
+    id: 'exch-b7-going-too',
+    category: 'daily-routine',
+    categoryLabel: 'Invitations & Plans',
+    situationTitle: 'Going Together to the Cinema',
+    englishMeaning: 'I am going to the cinema tomorrow.',
+    promptSpeaker: 'Friend planning outing',
+    semanticPattern: 'plans-cinema-join',
+    subjectEntity: 'friend',
+    spriteId: '07',
+    promptRomaji: 'Ashita, eigakan ni ikimasu.',
+    promptHiragana: 'あした、えいがかんにいきます。',
+    correctRomaji: 'Sō desu ka. Jā, watashi mo ikimasu.',
+    correctHiragana: 'そうですか。じゃあ、わたしもいきます。',
+    correctEnglish: "I see. In that case, I'll go too.",
+    distractors: [
+      { romaji: 'Sō desu ka. Jā, watashi wa ikimasen deshita.', hiragana: 'そうですか。じゃあ、わたしはいきませんでした。', english: "Tense error: past negative for tomorrow's plan" },
+      { romaji: 'Sō desu ka. Jā, watashi mo ikimashita.', hiragana: 'そうですか。じゃあ、わたしもいきました。', english: 'Tense error: past tense "ikimashita" for tomorrow' },
+    ],
+    questionDistractors: [
+      { romaji: 'Ashita, eigakan o ikimasu.', hiragana: 'あした、えいかんをいきます。', english: 'Particle error: "o" instead of destination "ni"' },
+      { romaji: 'Eigakan ni ikimasu ashita.', hiragana: 'えいがかんにいきます あした。', english: 'Inverted time word placement' },
     ],
   },
 ];

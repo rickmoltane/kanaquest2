@@ -31,7 +31,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCategory, setSelectedCategory] = useState<UserVocabCategoryFilter>('All');
-  const [selectedBatch, setSelectedBatch] = useState<'all' | 1 | 2 | 3 | 4 | 5 | 6>('all');
+  const [selectedBatch, setSelectedBatch] = useState<'all' | 1 | 2 | 3 | 4 | 5 | 6 | 7>('all');
   const [playingId, setPlayingId] = useState<string | null>(null);
 
   const handlePlayAudio = (item: UserVocabItem) => {
@@ -75,6 +75,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
   const batch4Count = USER_VOCAB_DB.filter(i => i.batch === 4).length;
   const batch5Count = USER_VOCAB_DB.filter(i => i.batch === 5).length;
   const batch6Count = USER_VOCAB_DB.filter(i => i.batch === 6).length;
+  const batch7Count = USER_VOCAB_DB.filter(i => i.batch === 7).length;
   const wordCount = USER_VOCAB_DB.filter(i => i.itemType === 'word').length;
   const phraseCount = USER_VOCAB_DB.filter(i => i.itemType !== 'word').length;
 
@@ -142,7 +143,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
       </div>
 
       {/* Database Metrics Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5">
+      <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2">
         <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
           <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
             <span>Total</span>
@@ -152,7 +153,7 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
             {totalItems}
           </div>
           <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium">
-            100% user verified
+            100% verified
           </div>
         </div>
 
@@ -233,6 +234,19 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
             Food &amp; Dining
           </div>
         </div>
+
+        <div className="p-3 rounded-2xl bg-white border border-[#E2E8F0] shadow-2xs">
+          <div className="flex items-center justify-between text-[#5F6368] text-xs font-semibold">
+            <span>Batch 7</span>
+            <Sparkles className="w-4 h-4 text-purple-600" />
+          </div>
+          <div className="mt-1.5 text-2xl font-black text-[#1F2329] font-mono">
+            {batch7Count}
+          </div>
+          <div className="text-[11px] text-[#5F6368] mt-0.5 font-medium truncate">
+            Verbs &amp; Places
+          </div>
+        </div>
       </div>
 
       {/* Useful Distinctions Callout */}
@@ -242,40 +256,50 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
         </h4>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs text-amber-950">
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">4 Verb Forms:</span>
+            <div className="mt-0.5 text-[11px] leading-tight space-y-0.5">
+              <div>&bull; ます (-masu): present / future affirmative</div>
+              <div>&bull; ました (-mashita): past affirmative</div>
+              <div>&bull; ません (-masen): present / future negative</div>
+              <div>&bull; ませんでした (-masendeshita): past negative</div>
+            </div>
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Dictionary Forms:</span> 食べる (taberu = to eat), 飲む (nomu = to drink), 起きる (okiru = wake up), 寝る (neru = sleep), する (suru = do), 行く (iku = go).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Negative Adjectives:</span>
+            <div className="mt-0.5 text-[11px] leading-tight space-y-0.5">
+              <div>&bull; い-adjectives: drop い &rarr; + くないです (おいしくないです, たかくないです)</div>
+              <div>&bull; な-adjective / noun: + じゃないです (好きじゃないです)</div>
+            </div>
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Place + に + 行きます:</span> 駅に行きます (I am going to the station), 新宿に行きます (I am going to Shinjuku).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Place + で + Action Verb:</span> 映画館で映画を見ます (I watch a movie at the cinema), 地下鉄で行きます (I go by subway).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
+            <span className="font-bold text-amber-900">Time + から + まで:</span> 病院は何時から何時までですか？ (From what time until what time is the hospital open?).
+          </div>
+          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
             <span className="font-bold text-amber-900">Noun + を + 食べます／飲みます:</span> を (o) marks what you consume (パンを食べます = eat bread; 水を飲みます = drink water).
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
             <span className="font-bold text-amber-900">お茶 (ocha) vs 紅茶 (kōcha):</span> お茶 = green tea / general tea; 紅茶 = black tea specifically.
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Likes &amp; Dislikes:</span> 肉が好きです (I like meat - general); 魚は好きじゃありません (topic contrast for negatives).
+            <span className="font-bold text-amber-900">Likes &amp; Dislikes:</span> 肉が好きです (I like meat); 魚は好きじゃないです / 好きじゃありません (I don't like fish).
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
             <span className="font-bold text-amber-900">Frequency + Negatives:</span> いつも (always) &amp; よく (often) take positive; あまり (not much) &amp; 全然 (not at all) always take negative verbs!
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">～ましょう (Let's...):</span> 行きましょう (Let's go), 食べましょう (Let's eat), 飲みましょう (Let's drink).
+            <span className="font-bold text-amber-900">Place + に + 住んでいます:</span> 東京に住んでいます (I live in Tokyo), 大阪に住んでいます (I live in Osaka).
           </div>
           <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Polite Offers:</span> コーヒー、いかがですか？ &rarr; はい、お願いします (Yes, please) or いいえ、結構です (No, thank you).
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Place + に + 住んでいます:</span> 東京に住んでいます (I live in Tokyo), バンコクに住んでいます (I live in Bangkok).
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Humble vs Polite Family:</span> 父 (chichi) &amp; 母 (haha) for your family; お父さん &amp; お母さん for someone else's.
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">四人（よにん, yonin）:</span> Always pronounced <span className="font-mono font-bold">yonin</span>, never よんにん.
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">の (no) Possession:</span> ミラさんの傘 = Mira's umbrella; 私の = mine; 誰の = whose.
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">これ・それ・あれ:</span> これ = near speaker; それ = near listener; あれ = away from both.
-          </div>
-          <div className="bg-white/80 p-2 rounded-xl border border-amber-200/60">
-            <span className="font-bold text-amber-900">Curriculum Size:</span> {wordCount} words &bull; {phraseCount} phrases across all 6 batches ({totalItems} total).
+            <span className="font-bold text-amber-900">Curriculum Size:</span> {wordCount} words &bull; {phraseCount} phrases across all 7 batches ({totalItems} total).
           </div>
         </div>
       </div>
@@ -382,6 +406,17 @@ export const UserVocabDatabase: React.FC<UserVocabDatabaseProps> = ({
               }`}
             >
               Batch 6 ({batch6Count})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedBatch(7)}
+              className={`px-2.5 py-1 text-xs font-bold rounded-lg transition-all ${
+                selectedBatch === 7 
+                  ? 'bg-white text-[#1F2329] shadow-xs' 
+                  : 'text-[#5F6368] hover:text-[#1F2329]'
+              }`}
+            >
+              Batch 7 ({batch7Count})
             </button>
           </div>
         </div>

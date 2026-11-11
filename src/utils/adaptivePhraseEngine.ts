@@ -253,7 +253,10 @@ export function generateAdaptiveExchangeQuiz(
       item.category === 'demonstratives' ||
       item.category === 'daily-inquiry' ||
       item.category === 'food-drinks' ||
-      item.category === 'dining-preferences';
+      item.category === 'dining-preferences' ||
+      item.category === 'daily-routine' ||
+      item.category === 'places-transit' ||
+      item.category === 'time-schedules';
 
     // Mix bidirectional practice: indices 1, 3, 5, 7, 9 test Answer -> Question
     const isReverse = isEligibleForReverse && (index % 2 === 1);

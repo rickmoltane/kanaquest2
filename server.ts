@@ -9,7 +9,12 @@ import os from "os";
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+
+// Parse CLI port or env port. In AI Studio, nginx listens on 8080 and proxies to 3000.
+const portArgIndex = process.argv.indexOf("--port");
+const cliPort = portArgIndex !== -1 ? Number(process.argv[portArgIndex + 1]) : null;
+const envPort = process.env.PORT ? Number(process.env.PORT) : null;
+const PORT = cliPort || (envPort && envPort !== 8080 ? envPort : 3000);
 
 app.use((_req, res, next) => {
   res.setHeader("Permissions-Policy", "microphone=*");
